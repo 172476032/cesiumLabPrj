@@ -36,10 +36,10 @@ module.exports = {
         changeOrigin: true,
         cookiePathRewrite: "/"
       },
-      '/map166': {
+      '/tomcat166': {
         target: 'http://10.6.172.166:8080',
         pathRewrite: {
-          '^/map166': '/cesiumlab'
+          '^/tomcat166': '/'
         },
         changeOrigin: true,
         cookiePathRewrite: "/"

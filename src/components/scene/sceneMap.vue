@@ -15,11 +15,20 @@
 import Cesium from "cesium/Cesium";
 import "cesium/Widgets/widgets.css";
 import CesiumNavigation from "cesium-navigation-es6";
+const wddterrain = {
+  name: "wddterrain",
+  url: "/tomcat166/cesiumlab/terrain/wddTerrains"
+};
+const tongnan = {
+  name: "tongnan",
+  url: "/tomcat166/cesiumlab/terrain/tongnanTerrains"
+};
 
 export default {
   name: "scenemap",
   data() {
     return {
+      currentServer: tongnan,
       delayInitTime: 3000,
       options: {
         enableCompass: true,
@@ -35,8 +44,11 @@ export default {
     this.initSceneMap();
   },
   computed: {
-    originArea() {
-      return this.$store.state.map.locationArea["full"]["saxc"];
+    locationArea() {
+      return this.$store.state.map.locationArea;
+    },
+    terrainRectangle() {
+      return this.locationArea.terrain[this.currentServer.name];
     }
   },
   methods: {
@@ -45,7 +57,7 @@ export default {
       this.Viewer = new Cesium.Viewer("sceneMap", {
         baseLayerPicker: false,
         fullscreenButton: false,
-        sceneModePicker: false,
+        // sceneModePicker: false,
         timeline: false,
         geocoder: false,
         homeButton: false,
@@ -62,10 +74,23 @@ export default {
           tileMatrixSetID: "GoogleMapsCompatible",
           show: false
         }) // 天地图影像
-        // terrainProvider: Cesium.createWorldTerrain() //建议不要加载全球地形
+        // Cesium.createWorldTerrain() //建议不要加载全球地形
       });
+      var rectangle = new Cesium.Rectangle(
+        Cesium.Math.toRadians(111.43673),
+        Cesium.Math.toRadians(29.011803),
+        Cesium.Math.toRadians(114.12563),
+        Cesium.Math.toRadians(30.50045)
+      );
+      var terrainLayer = new Cesium.CesiumTerrainProvider({
+        url: "/tomcat166/cesiumlab/terrain/terraintest",
+        requestWaterMask: true
+      });
+      this.Viewer.terrainProvider = terrainLayer;
+      this.Viewer.scene.camera.flyTo({ destination: rectangle });
+      this.scene(this.Viewer);
       //初始化视角动画
-      this.initCamera(this.Viewer);
+      // this.initCamera(this.Viewer);
     },
     //动画效果
     initCamera(viewer) {
@@ -84,33 +109,41 @@ export default {
         }
       });
       setTimeout(() => {
-        this.addTerrain(viewer);
-        this.addMouseEvent(viewer);
-        //添加导航
-        CesiumNavigation(viewer, this.options);
+        this.init(viewer);
       }, 2000);
     },
 
+    init(viewer) {
+      this.spinShow = false;
+      this.addTerrain(viewer, this.currentServer);
+      this.addMouseEvent(viewer);
+      //添加导航
+      CesiumNavigation(viewer, this.options);
+      this.setCameraOnTerrain(viewer);
+    },
     addMouseEvent(viewer) {
       // this.addPointMoveEvent( viewer);
       this.addLeftClickEvent(viewer);
     },
 
     //添加地形
-    addTerrain(viewer) {
-      var rectangle = new Cesium.Rectangle(
-        Cesium.Math.toRadians(105.49749255180359),
-        Cesium.Math.toRadians(29.768153429031372),
-        Cesium.Math.toRadians(106.0345995426178),
-        Cesium.Math.toRadians(30.4605495929718)
+    addTerrain(viewer, currentServer) {
+      let rectangle = new Cesium.Rectangle(
+        Cesium.Math.toRadians(this.terrainRectangle.west),
+        Cesium.Math.toRadians(this.terrainRectangle.south),
+        Cesium.Math.toRadians(this.terrainRectangle.east),
+        Cesium.Math.toRadians(this.terrainRectangle.north)
       );
-      var terrainLayer = new Cesium.CesiumTerrainProvider({
-        url: "/cesiumlab/terrain/潼南",
-        requestWaterMask: false,
-        credit: "http://www.bjxbsj.cn"
+      let terrainLayer = new Cesium.CesiumTerrainProvider({
+        url: currentServer.url,
+        requestWaterMask: false
       });
-      viewer.terrainProvider = terrainLayer;
-      viewer.scene.camera.flyTo({ destination: rectangle });
+      terrainLayer.readyPromise.then(terrain => {
+        this.spinShow = false;
+        console.log("加载的地形", terrain);
+        viewer.terrainProvider = terrainLayer;
+        viewer.scene.camera.flyTo({ destination: rectangle });
+      });
     },
     //注册鼠标hover事件
     addPointMoveEvent(viewer) {
@@ -134,6 +167,29 @@ export default {
         // this.identity(viewer, evt.position.x, evt.position.y);
         console.log("相机视角", viewer.scene.camera);
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    },
+
+    //控制视角不要再地下
+    setCameraOnTerrain(viewer) {
+      viewer.clock.onTick.addEventListener(() => {
+        if (viewer.camera.pitch > 0) {
+          viewer.scene.screenSpaceCameraController.enableTilt = false;
+        }
+      });
+      var mousePosition, startMousePosition;
+      var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+      handler.setInputAction(movement => {
+        mousePosition = startMousePosition = Cesium.Cartesian3.clone(
+          movement.position
+        );
+        handler.setInputAction(movement => {
+          mousePosition = movement.endPosition;
+          var y = mousePosition.y - startMousePosition.y;
+          if (y > 0) {
+            viewer.scene.screenSpaceCameraController.enableTilt = true;
+          }
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+      }, Cesium.ScreenSpaceEventType.MIDDLE_DOWN);
     }
   },
   destroyed() {}
@@ -148,45 +204,6 @@ export default {
   .ivu-spin-fix {
     background-color: rgba(255, 255, 255, 0.2);
   }
-  //弹出框信息strat----------
-  .bubble {
-    text-align: center;
-    position: absolute;
-    padding: 15px;
-    margin: 0;
-    background: #fff;
-    max-width: 330px;
-    max-height: 200px;
-  }
-
-  .bubble float {
-    right: 2%;
-    top: 2%;
-  }
-
-  .bubble:after {
-    content: "";
-    position: absolute;
-    bottom: -50px;
-    left: 50px;
-    border-width: 0 20px 50px 0px;
-    border-style: solid;
-    border-color: transparent #fff;
-    display: block;
-    width: 0;
-  }
-
-  .float {
-    position: absolute;
-    text-align: center;
-    padding: 15px;
-    margin: 0;
-    background: #fff;
-    max-width: 330px;
-    max-height: 400px;
-  }
-
-  /////////end-------
   #sceneMap {
     width: 100%;
     height: 100%;
