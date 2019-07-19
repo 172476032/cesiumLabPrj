@@ -43,6 +43,20 @@ module.exports = {
         },
         changeOrigin: true,
         cookiePathRewrite: "/"
+      },
+      '/models': {
+        target: 'http://10.6.172.166:8080',
+        pathRewrite: {
+          '^/models': ""
+        }
+      },
+      '/map178': {
+        target: 'http://10.6.172.178:6080',
+        pathRewrite: {
+          '^/map178': '/arcgis'
+        },
+        changeOrigin: true,
+        cookiePathRewrite: "/"
       }
     },
 

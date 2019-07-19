@@ -1,6 +1,7 @@
 <template>
   <div class="scene-3d-map-wrap">
     <div id="sceneMap"></div>
+    <cj-layer-controls></cj-layer-controls>
     <Spin fix
           v-show="spinShow">
       <Icon type="ios-loading"
@@ -15,6 +16,8 @@
 import Cesium from "cesium/Cesium";
 import "cesium/Widgets/widgets.css";
 import CesiumNavigation from "cesium-navigation-es6";
+import cjLayerControls from "../cjLayerControls/cj3d/layerContainer";
+import tree3dLayers from "../configs/tree3dLayers.js";
 const wddterrain = {
   name: "wddterrain",
   url: "/tomcat166/cesiumlab/terrain/wddTerrains"
@@ -39,7 +42,7 @@ export default {
       Viewer: null
     };
   },
-  components: {},
+  components: { cjLayerControls },
   mounted() {
     this.initSceneMap();
   },
@@ -57,7 +60,7 @@ export default {
       this.Viewer = new Cesium.Viewer("sceneMap", {
         baseLayerPicker: false,
         fullscreenButton: false,
-        // sceneModePicker: false,
+        sceneModePicker: false,
         timeline: false,
         geocoder: false,
         homeButton: false,
@@ -76,19 +79,23 @@ export default {
         }) // 天地图影像
         // Cesium.createWorldTerrain() //建议不要加载全球地形
       });
+      window.Cesium = Cesium;
+      window.Viewer = this.Viewer;
       var rectangle = new Cesium.Rectangle(
-        Cesium.Math.toRadians(111.43673),
-        Cesium.Math.toRadians(29.011803),
-        Cesium.Math.toRadians(114.12563),
-        Cesium.Math.toRadians(30.50045)
+        Cesium.Math.toRadians(105.49749),
+        Cesium.Math.toRadians(29.768154),
+        Cesium.Math.toRadians(106.0346),
+        Cesium.Math.toRadians(30.46055)
       );
       var terrainLayer = new Cesium.CesiumTerrainProvider({
-        url: "/tomcat166/cesiumlab/terrain/terraintest",
-        requestWaterMask: true
+        url: "http://localhost:8050/tongnandata/3dtiles",
+        requestWaterMask: true,
+        credit: "http://www.bjxbsj.cn"
       });
       this.Viewer.terrainProvider = terrainLayer;
       this.Viewer.scene.camera.flyTo({ destination: rectangle });
-      this.scene(this.Viewer);
+      // this.initLayers(this.Viewer, tree3dLayers);
+      console.log("tre萨达萨达是e3dLayers: ", tree3dLayers);
       //初始化视角动画
       // this.initCamera(this.Viewer);
     },
@@ -190,6 +197,157 @@ export default {
           }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
       }, Cesium.ScreenSpaceEventType.MIDDLE_DOWN);
+    },
+    initLayers(viewer, treeLayers) {
+      this.addLayers(viewer, treeLayers);
+      console.log(
+        "三维图层初始化显示的图层列表",
+        this.$store.state.map.select3dTreeLayers
+      );
+      console.log("增加modelindex和layerindex后的图层列表: ", treeLayers);
+      this.$store.state.map.tree3dConfigs = treeLayers;
+    },
+    addLayers(viewer, treeLayers) {
+      treeLayers.forEach(v => {
+        //无子目录，且含有type为WMTS、WMS、MODEL类型的进行新建图层
+        if (v.type == "MODEL" && v.visible) {
+          //初始化添加模型
+          this.add3dModels(
+            v.layerUrl,
+            v.longitude,
+            v.latitude,
+            v.height,
+            v.heading,
+            viewer
+          );
+          this.$store.state.map.modelIndex++;
+          v.modelIndex = this.$store.state.map.modelIndex;
+        } else if (v.visible && (v.type == "WMS" || v.type == "WMTS")) {
+          let imageryLayer = this.createImageryLayer(
+            v.layerIndex,
+            v.layerUrl,
+            v.layerName,
+            v.visible,
+            v.type,
+            v.geoType,
+            v.wmsLayerNames
+          );
+          this.$store.state.map.imageryLayerIndex++;
+          v.imageryLayerIndex = this.$store.state.map.imageryLayerIndex;
+          viewer.imageryLayers.add(imageryLayer);
+          //初始化点击查询列表，如果为可见，则可查
+          if (v.queryConfig) {
+            this.$store.state.map.select3dTreeLayers.push(v.queryConfig);
+          }
+        }
+        //有子目录，再次调用
+        if (v.children) {
+          this.addLayers(viewer, v.children);
+        }
+      });
+    },
+
+    //《《《---------------------添加基础图层
+    initLayers1(viewer, treeLayers) {
+      if (treeLayers) {
+        //图层树加载 ，创建图层，直接遍历第三层
+        if (treeLayers.length > 0) {
+          let len = treeLayers.length;
+          for (let i = 0; i < len; i++) {
+            let jlen = treeLayers[i].children.length;
+            for (let j = 0; j < jlen; j++) {
+              let klen = treeLayers[i].children[j].children.length;
+              for (let k = 0; k < klen; k++) {
+                let v = treeLayers[i].children[j].children[k];
+                if (v.type == "MODEL" && v.visible) {
+                  //初始化添加模型
+                  this.add3dModels(
+                    v.layerUrl,
+                    v.longitude,
+                    v.latitude,
+                    v.height,
+                    v.heading,
+                    viewer
+                  );
+                  this.$store.state.map.modelIndex++;
+                  v.modelIndex = this.$store.state.map.modelIndex;
+                } else if (v.visible && (v.type == "WMS" || v.type == "WMTS")) {
+                  let imageryLayer = this.createImageryLayer(
+                    v.layerIndex,
+                    v.layerUrl,
+                    v.layerName,
+                    v.visible,
+                    v.type,
+                    v.geoType,
+                    v.wmsLayerNames
+                  );
+                  this.$store.state.map.imageryLayerIndex++;
+                  v.imageryLayerIndex = this.$store.state.map.imageryLayerIndex;
+                  viewer.imageryLayers.add(imageryLayer);
+                  //初始化点击查询列表，如果为可见，则可查
+                  if (v.queryConfig) {
+                    this.$store.state.map.select3dTreeLayers.push(
+                      v.queryConfig
+                    );
+                  }
+                }
+              }
+            }
+          }
+          console.log(
+            "三维图层初始化显示的图层列表",
+            this.$store.state.map.select3dTreeLayers
+          );
+          console.log("增加modelindex和layerindex后的图层列表: ", treeLayers);
+          this.$store.state.map.tree3dConfigs = treeLayers;
+        }
+      }
+    },
+    //创建WMS、WMTS图层
+    createImageryLayer(
+      index,
+      url,
+      name,
+      visible,
+      type,
+      geoType,
+      wmsLayerNames
+    ) {
+      let imageryLayer;
+      if (type == "WMS") {
+        imageryLayer = new Cesium.ImageryLayer(
+          new Cesium.WebMapServiceImageryProvider(
+            {
+              url: url,
+              layers: wmsLayerNames,
+              parameters: {
+                FORMAT: "image/png",
+                VERSION: "1.1.1",
+                tiled: true,
+                SRS: "EPSG:4326",
+                STYLES: "",
+                TRANSPARENT: true
+              }
+            },
+            index
+          ),
+          { show: visible }
+        );
+      } else if (type == "WMTS") {
+        let pUrl = url.substr(0, url.indexOf("/MapServer/") + 10);
+        console.log("url: ", pUrl);
+        imageryLayer = new Cesium.ImageryLayer(
+          new Cesium.ArcGisMapServerImageryProvider(
+            {
+              url: pUrl
+            },
+            index
+          ),
+          { show: visible }
+        );
+      }
+      // console.log("图层树加载的layer: ", layer);
+      return imageryLayer;
     }
   },
   destroyed() {}
