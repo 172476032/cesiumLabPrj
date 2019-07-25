@@ -1,0 +1,57 @@
+$blue: rgb(17, 142, 234);
+$border: 1px solid #f0f2f5;
+$shadow: 0 0 7px 2px #dcdcde;
+$mainColor: #0566a7;
+$activeColor: #19a2de;
+$orange: #ff9900;
+$menuBgc: #fafafa;
+$itemActiveColor: #eee;
+$lineColor: #e2e2e2;
+
+// 清除浮动影响 （注意给影响到的父级元素添加）
+@mixin clear-fix {
+  &::before, 
+  &::after {
+    content: '';
+    display: table;
+  }
+
+  &::after {
+    clear: both;
+  }
+}
+
+// 元素 ！！绝对 相对于（设置了position:relative的）父级元素居中（利用了transform ie10以下不兼容）
+@mixin transform-center{  
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); 
+}
+
+// 元素居中 需要知道宽高 
+@mixin normal-center($width, $height) {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -($width / 2) + px;
+  margin-top: -($height / 2) + px;
+}
+
+// 块级元素水平居中
+@mixin block-center {
+  margin: 0 auto;
+}
+
+// 文字超出容器隐藏
+@mixin text-omit {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+// 文字居中 传入容器高
+@mixin text-center($boxHeight) {
+  text-align: center;
+  line-height: $boxHeight;
+}

@@ -1,0 +1,121 @@
+[{
+    "type": "arcgis-wmts3857",
+    "layer_name": "长江流域影像",
+    "real_name": "cjImage",
+    "visible": false,
+    "img_url": "",
+    "id": 10001,
+    "index": 0,
+    "layerConfigs": [{
+      "bottomLeft": [90.54439720842934, 24.46972078995854],
+      "topRight": [122.06895907417073, 35.900247044602395],
+      "url": "/map172166/rest/services/basemap/长江中下游高清影像/MapServer/tile/{z}/{y}/{x}",
+      "layer": "长江中下游高清影像"
+    }]
+  },
+  {
+    "type": "arcgis-wmts3857",
+    "layer_name": "长江流域晕眩",
+    "real_name": "cjyunxuan",
+    "visible": false,
+    "img_url": "",
+    "id": 10002,
+    "index": 0,
+    "layerConfigs": [{
+      "bottomLeft": [90.54439720842934, 24.46972078995854],
+      "topRight": [122.06895907417073, 35.900247044602395],
+      "url": "/map178/rest/services/cjcenter/长江流域晕眩/MapServer/tile/{z}/{y}/{x}",
+      "layer": "长江流域晕眩"
+    }],
+    "filterLayer_realnames": ["WaterStation_JSJ", "reservoir", "riverJSJ", "lybjx_JSJ"]
+  },
+  {
+    "layer_name": "谷歌矢量",
+    "real_name": "bsGoogleVector",
+    "url": "http://ditu.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i388084420!3m9!2szh-CN!3sCN!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!4e0",
+    "visible": false,
+    "img_url": "",
+    "id": 10003,
+    "index": 0,
+    "layerConfigs": {
+      "origin": [-20037685.342789244, 20037890.342789244]
+    }
+  },
+  {
+    "layer_name": "谷歌影像",
+    "real_name": "bsGoogleImage",
+    "url": "http://mt1.google.cn/maps/vt?lyrs=s%40734&hl=zh-CN&gl=CN&x={x}&y={y}&z={z}",
+    "visible": true,
+    "img_url": "",
+    "id": 10004,
+    "index": 0,
+    "layerConfigs": {
+      "origin": [-20037685.342789244, 20037890.342789244]
+    }
+  },
+  {
+    "layer_name": "谷歌地形",
+    "real_name": "bsGoogleTerrain",
+    "url": "http://ditu.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e4!2st!3i388!2m3!1e0!2sr!3i388084516!3m12!2szh-CN!3sCN!5e18!12m4!1e68!2m2!1sset!2sTerrain!12m3!1e37!2m1!1ssmartmaps!4e0",
+    "visible": false,
+    "img_url": "",
+    "id": 10005,
+    "index": 0,
+    "layerConfigs": {
+      "origin": [-20037685.342789244, 20037890.342789244]
+    }
+  },
+  {
+    "type": "baidu-wmts",
+    "layer_name": "百度地图矢量",
+    "real_name": "bsBaiduVector",
+    "url": "http://online2.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=pl",
+    "visible": false,
+    "img_url": "",
+    "id": 10006,
+    "index": 0
+  },
+  {
+    "type": "baidu-wmts",
+    "layer_name": "百度地图影像",
+    "real_name": "bsBaiduImage",
+    "url": "http://shangetu0.map.bdimg.com/it/u=x={x};y={y};z={z};v=009;type=sate&fm=46",
+    "visible": false,
+    "img_url": "",
+    "id": 10007,
+    "index": 0
+  },
+  {
+    "layer_name": "天地图矢量",
+    "real_name": "bsTdtVector",
+    "url": "http://t{0-6}.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=b97312f85a240009c717a8480b6d54d2",
+    "visible": false,
+    "img_url": "",
+    "id": 10008,
+    "index": 0,
+    "layerConfigs": {
+      "url": "http://t{0-6}.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=b97312f85a240009c717a8480b6d54d2"
+    }
+  },
+  {
+    "layer_name": "天地图影像",
+    "real_name": "bsTdtImage",
+    "url": "http://t{0-6}.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=b97312f85a240009c717a8480b6d54d2",
+    "visible": true,
+    "img_url": "",
+    "id": 10009,
+    "index": 0
+  },
+  {
+    "layer_name": "天地图地形",
+    "real_name": "bsTdtTerrain",
+    "url": "http://t{0-6}.tianditu.com/DataServer?T=ter_w&x={x}&y={y}&l={z}&tk=b97312f85a240009c717a8480b6d54d2",
+    "visible": false,
+    "img_url": "",
+    "id": 10010,
+    "index": 0,
+    "layerConfigs": {
+      "url": "http://t{0-6}.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=b97312f85a240009c717a8480b6d54d2"
+    }
+  }
+]

@@ -1,0 +1,51 @@
+[{
+    "type": "arcgis-wmts",
+    "layer_name": "长江流域高清影像",
+    "real_name": "zxygqyx",
+    "visible": false,
+    "layer_url": "/map172166/rest/services/basemap/长江中下游高清影像/MapServer"
+  }, {
+    "type": "arcgis-wmts",
+    "layer_name": "长江流域晕眩",
+    "real_name": "cjlyyx",
+    "visible": false,
+    "layer_url": "/map178/rest/services/cjcenter/长江流域晕眩/MapServer"
+  }, {
+    "type": "google",
+    "layer_name": "谷歌矢量",
+    "real_name": "",
+    "visible": false,
+    "layer_url": "http://ditu.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i388084420!3m9!2szh-CN!3sCN!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!4e0"
+  }, {
+    "type": "google",
+    "layer_name": "谷歌影像",
+    "real_name": "",
+    "visible": false,
+    "layer_url": "http://www.google.cn/maps/vt?lyrs=s@716&x={x}&y={y}&z={z}"
+  }, {
+    "type": "google",
+    "layer_name": "谷歌地形",
+    "real_name": "",
+    "visible": false,
+    "layer_url": "http://ditu.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e4!2st!3i388!2m3!1e0!2sr!3i388084516!3m12!2szh-CN!3sCN!5e18!12m4!1e68!2m2!1sset!2sTerrain!12m3!1e37!2m1!1ssmartmaps!4e0"
+  },
+  {
+    "type": "tdt",
+    "layer_name": "天地图矢量",
+    "real_name": "tdtVecBasicLayer",
+    "visible": false,
+    "layer_url": "http://t0.tianditu.com/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=b97312f85a240009c717a8480b6d54d2"
+  }, {
+    "type": "tdt",
+    "layer_name": "天地图影像",
+    "real_name": "tdtBasicLayer",
+    "visible": false,
+    "layer_url": "http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=b97312f85a240009c717a8480b6d54d2"
+  }, {
+    "type": "tdt",
+    "layer_name": "天地图地形",
+    "real_name": "ter",
+    "visible": true,
+    "layer_url": "https://t1.tianditu.gov.cn/ter_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ter&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&tk=b97312f85a240009c717a8480b6d54d2"
+  }
+]
