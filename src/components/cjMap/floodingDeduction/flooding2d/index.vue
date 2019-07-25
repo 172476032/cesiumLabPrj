@@ -29,19 +29,17 @@ export default {
   components: { floodLegend },
   mounted() {},
   computed: {
-    arrivalIndex() {
-      console.log("arrivalIndex: ", this.$store.state.map.arrivalIndex);
-      return this.$store.state.map.arrivalIndex;
+    arrivalOlIndex() {
+      console.log("arrivalIndex: ", this.$store.state.map.arrivalOlIndex);
+      return this.$store.state.map.arrivalOlIndex;
     },
-    sortGroupGridsLength() {
-      console.log(
-        "sortGroupGridsLength: ",
-        this.$store.state.map.sortGroupGridsLength
-      );
-      return this.$store.state.map.sortGroupGridsLength;
+    sortGroupGrids3857Length() {
+      return this.$store.state.map.sortGroupGrids3857Length;
     },
     percent() {
-      return ((100 / this.sortGroupGridsLength) * this.arrivalIndex).toFixed(0);
+      return Number(
+        ((100 / this.sortGroupGrids3857Length) * this.arrivalOlIndex).toFixed(0)
+      );
     }
   },
   methods: {

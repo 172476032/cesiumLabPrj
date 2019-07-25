@@ -2,29 +2,29 @@
 <template>
   <div class="map-integration-wrap">
     <!-- 地图对象 -->
-    <!-- <cj-map v-show="!is3dMap"></cj-map> -->
+    <cj-map v-show="!is3dMap"></cj-map>
     <scene-map v-show="is3dMap"></scene-map>
     <!-- 基础控件 -->
-    <!-- <map-scale v-show="!is3dMap"></map-scale> -->
-    <!-- <div v-show="!is3dMap">
+    <map-scale v-show="!is3dMap"></map-scale>
+    <div v-show="!is3dMap">
       <map-location></map-location>
       <map-zoom></map-zoom>
-      <map-rotate></map-rotate> -->
-    <!-- 图层管理 -->
-    <!-- <layer2d-control></layer2d-control>
-    </div> -->
+      <map-rotate></map-rotate>
+      <!-- 图层管理 -->
+      <layer2d-control></layer2d-control>
+    </div>
     <div v-show="is3dMap">
       <map-loc-three-info></map-loc-three-info>
       <map-three-zoom></map-three-zoom>
-      <map-three-rotate style="bottom:150px"></map-three-rotate>
+      <map-three-rotate></map-three-rotate>
       <!-- 图层管理 -->
       <layer3d-control></layer3d-control>
     </div>
-    <!-- <map-three></map-three> -->
+    <map-three></map-three>
     <!-- 工具条 -->
     <map-tool-bar></map-tool-bar>
     <!-- 全局搜索条 -->
-    <!-- <search-bar></search-bar> -->
+    <search-bar></search-bar>
   </div>
 </template>
 
@@ -66,7 +66,6 @@ export default {
     mapThreeZoom,
     mapThreeRotate
   },
-
   computed: {
     is3dMap() {
       return this.$store.state.map.is3dMap;

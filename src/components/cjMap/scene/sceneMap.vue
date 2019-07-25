@@ -1,6 +1,7 @@
 <template>
   <div class="scene-3d-map-wrap">
     <div id="sceneMap"></div>
+    <!-- 洪水推演 -->
     <Dropdown class="flood-dropdown"
               @on-click="toggle">
       <Button type="primary">
@@ -12,15 +13,16 @@
         <DropdownItem name="closeFloodPanel">关闭</DropdownItem>
       </DropdownMenu>
     </Dropdown>
-    <flooding-deduction v-if="floodShow"
-                        @beginFlooding="beginFlooding"
-                        @pauseFlooding="pauseFlooding"
-                        @replayFlooding="replayFlooding"></flooding-deduction>
+    <flooding3d-deduction v-if="floodShow"
+                          @beginFlooding="beginFlooding"
+                          @pauseFlooding="pauseFlooding"
+                          @replayFlooding="replayFlooding">
+    </flooding3d-deduction>
   </div>
 </template>
 
 <script>
-import floodingDeduction from "@/components/cjMap/floodingDeduction";
+import flooding3dDeduction from "@/components/cjMap/floodingDeduction/flooding3d/index.vue";
 import Cesium from "cesium/Cesium";
 import "cesium/Widgets/widgets.css";
 import CesiumNavigation from "cesium-navigation-es6";
@@ -30,7 +32,7 @@ import axios from "axios";
 //投影
 import { transform } from "ol/proj";
 import treeLayers from "../configs/tree3dLayers";
-import flooding from "../mixins/flooding";
+import flooding from "@/components/cjMap/floodingDeduction/flooding3d/flooding.js";
 const img = "/static/map/pointicon.png";
 
 export default {
@@ -53,10 +55,9 @@ export default {
     };
   },
   mixins: [flooding],
-  components: { floodingDeduction },
+  components: { flooding3dDeduction },
   mounted() {
-    // bus.$on("initSceneMap", this.initSceneMap);
-    this.initSceneMap();
+    bus.$on("initSceneMap", this.initSceneMap);
   },
   computed: {
     is3dMap() {
@@ -463,7 +464,7 @@ export default {
   }
   .flood-dropdown {
     position: absolute;
-    right: 88%;
+    right: 18%;
     top: 40px;
   }
 }

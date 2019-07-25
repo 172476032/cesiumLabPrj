@@ -20,6 +20,7 @@ import ImageArcGISRest from 'ol/source/ImageArcGISRest';
 import Point from "ol/geom/Point"
 import LineString from "ol/geom/LineString"
 import Polygon from "ol/geom/Polygon"
+import MultiPolygon from 'ol/geom/MultiPolygon';
 import Feature from 'ol/Feature';
 //样式
 import Stroke from "ol/style/Stroke";
@@ -112,7 +113,9 @@ export default {
   state: {
     map: init2Map(),
     arrivalIndex: 0,
+    arrivalOlIndex: 0,
     sortGroupGridsLength: 0,
+    sortGroupGrids3857Length: 0,
     floodingColorsHtml: {
       1: "#A6FF00",
       2: "#82F630",
@@ -151,7 +154,7 @@ export default {
     clickLayer: clickLayer,
     hoverFullPoint: hoverFullPoint,
     clickFullPoint: clickFullPoint,
-    is3dMap: true,
+    is3dMap: false,
     cursorType: "default",
     fullScreen: [],
     treeConfigs: [], //二维图层树初始化数组对象

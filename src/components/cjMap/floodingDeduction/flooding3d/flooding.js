@@ -1,5 +1,5 @@
 import _ from "lodash"
-import grids from '../../../../static/jsons/floodAll';
+import grids from '../../../../../static/jsons/flood4326';
 export default {
   data() {
     return {
@@ -208,4 +208,5 @@ export default {
       this.entities.push(entity);
     }
   }
+
 };

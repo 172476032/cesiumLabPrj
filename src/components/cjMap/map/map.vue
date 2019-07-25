@@ -16,6 +16,22 @@
                       :sttp="String(sttp)"
                       :stcd="String(stcd)"
                       @resetInfoShow="resetInfoShow"></click-info-modal>
+    <!-- 洪水推演 -->
+    <Dropdown class="flood2d-dropdown"
+              @on-click="toggle">
+      <Button type="primary">
+        洪水推演
+        <Icon type="ios-arrow-down"></Icon>
+      </Button>
+      <DropdownMenu slot="list">
+        <DropdownItem name="openFloodPanel">推演</DropdownItem>
+        <DropdownItem name="closeFloodPanel">关闭</DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+    <flooding2d-deduction v-if="floodShow"
+                          @beginFlooding="beginFlooding"
+                          @pauseFlooding="pauseFlooding"
+                          @replayFlooding="replayFlooding"></flooding2d-deduction>
   </div>
 </template>
 
@@ -43,10 +59,12 @@ import cjScatterOverlay from "@/components/cjMap/cjCommons/sctterAnimation.vue";
 import clickInfoModal from "@/components/cjMap/modals/clickInfoModal.vue";
 import cjMarkerTip from "@/components/cjMap/cjCommons/cjMarkerTip.vue";
 import inoutInteractions from "../mixins/inoutInteractions";
+import flooding2dDeduction from "@/components/cjMap/floodingDeduction/flooding2d/index.vue";
+import flooding from "@/components/cjMap/floodingDeduction/flooding2d/flooding.js";
 
 export default {
   name: "cjmap",
-  mixins: [mapEvents, inoutInteractions],
+  mixins: [mapEvents, inoutInteractions, flooding],
   data() {
     return {
       treeLayers: treeLayers,
@@ -60,11 +78,16 @@ export default {
       sttp: "",
       stcd: "",
       selection: {},
-      vectorTileLayers: []
+      vectorTileLayers: [],
+      floodShow: false
     };
   },
-
-  components: { clickInfoModal, cjMarkerTip, cjScatterOverlay },
+  components: {
+    clickInfoModal,
+    cjMarkerTip,
+    cjScatterOverlay,
+    flooding2dDeduction
+  },
 
   computed: {
     map() {
@@ -127,6 +150,7 @@ export default {
       });
       this.addBaseLayers(baseLayers);
       this.addThemeLayers(treeLayers);
+      this.$store.state.map.treeConfigs = this.treeLayers;
       // this.addInteractions(this.map, this.vectorTileLayers);
       console.log("所有的矢量瓦片图层", this.vectorTileLayers);
       this.$refs.cjMarkerTip.$emit("on-init", this.map);
@@ -168,6 +192,32 @@ export default {
       this.$store.commit("SET_CURRENT_MAP_BASEMAP", currentBasemap);
     },
     addThemeLayers(treeLayers) {
+      treeLayers.forEach(v => {
+        if (v.type) {
+          //设置了type的配置为图层
+          let layer = this.addLayers(
+            v.layerUrl,
+            v.layerName,
+            v.visible,
+            v.type,
+            v.geoType,
+            v.wmsLayerNames,
+            v.vectorConfig,
+            v.name,
+            v.declutter
+          );
+          //初始化点击查询列表，如果为可见，则可查
+          if (v.visible && v.queryConfig) {
+            this.$store.state.map.selectTreeLayers.push(v.queryConfig);
+          }
+        }
+        //有子目录，再次调用
+        if (v.children) {
+          this.addThemeLayers(v.children);
+        }
+      });
+    },
+    addThemeLayers2(treeLayers) {
       //图层树加载 ，创建图层，直接遍历第三层
       if (treeLayers.length > 0) {
         let len = treeLayers.length,
@@ -194,27 +244,9 @@ export default {
               if (v.visible && v.queryConfig) {
                 this.$store.state.map.selectTreeLayers.push(v.queryConfig);
               }
-              //给每一个图层配置一个从0开始的index，因为三维获取图层是按照get(index)来获取的,
-              // 图层树还是要根据构建的图层列表来初始化，在此就遇到了这个坑，然而添加一个index完美解决了问题
-              if (v.type == "MODEL") {
-                modelIndex++;
-                v.modelIndex = modelIndex;
-              } else if (
-                v.type == "WMS" ||
-                v.type == "WMTS" ||
-                v.type == "VECTORTILE" ||
-                v.type == "COMMON"
-              ) {
-                layerIndex++;
-                v.layerIndex = layerIndex;
-              }
             }
           }
         }
-        console.log(
-          "图层管理器选择的图层对象列表：",
-          this.$store.state.map.selectTreeLayers
-        ); //图层加载完成后初始化树状结构
         this.$store.state.map.treeConfigs = this.treeLayers;
       }
     },
@@ -365,6 +397,11 @@ export default {
     width: 100%;
     height: 100%;
     position: relative;
+  }
+  .flood2d-dropdown {
+    position: absolute;
+    right: 18%;
+    top: 40px;
   }
 }
 </style>
