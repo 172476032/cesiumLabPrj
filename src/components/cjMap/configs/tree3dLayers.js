@@ -22,6 +22,37 @@ export default [{
   "isRoot": true,
   "icon": def,
   "children": [{
+      "id": "10142",
+      "name": "水闸",
+      "isRoot": false,
+      "icon": shuizha,
+      "type": "WMTS",
+      "geoType": "point",
+      "layerName": "shuizha",
+      "visible": false,
+      "layerUrl": "/map178/rest/services/cjcenter/水闸/MapServer/tile/{z}/{y}/{x}",
+      "queryConfig": {
+        "name": "水闸",
+        "url": "/map178/rest/services/cjcenter/水闸/MapServer/identify",
+        "canquery": false
+      }
+    },
+    {
+      "id": "10143",
+      "name": "泵站",
+      "isRoot": false,
+      "icon": bengzhan,
+      "type": "WMTS",
+      "geoType": "point",
+      "layerName": "bangzhan",
+      "visible": false,
+      "layerUrl": "/map178/rest/services/cjcenter/泵站/MapServer/tile/{z}/{y}/{x}",
+      "queryConfig": {
+        "name": "泵站",
+        "url": "/map178/rest/services/cjcenter/泵站/MapServer/identify",
+        "canquery": false
+      }
+    } ,{
     "id": "10001",
     "name": "河段",
     "isRoot": false,

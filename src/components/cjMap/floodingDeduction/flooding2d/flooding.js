@@ -6,6 +6,7 @@ import Feature from 'ol/Feature';
 import MultiPolygon from 'ol/geom/MultiPolygon';
 import Style from "ol/style/Style";
 import Fill from "ol/style/Fill";
+import Stroke from "ol/style/Stroke";
 import grids3857 from '../../../../../static/jsons/floodall3857';
 
 export default {
@@ -22,7 +23,7 @@ export default {
       return this.$store.state.map.arrivalOlIndex
     },
     colors() {
-      return this.$store.state.map.floodingColors;
+      return this.$store.state.map.floodingColors2d;
     },
     map() {
       return this.$store.getters.map;
@@ -99,6 +100,10 @@ export default {
           })
         }
         f.setStyle(new Style({
+          // stroke: new Stroke({
+          //   width: 1,
+          //   color: "rgba(0,0,0,0)"
+          // }),
           fill: new Fill({
             color: color
           })

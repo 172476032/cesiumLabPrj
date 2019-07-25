@@ -126,7 +126,7 @@ export default {
         if (this.$route.query.opt != "view") {
           this.map.getView().animate({
             center: this.map.getView().getCenter(),
-            zoom: 6
+            zoom: this.map.getView().getZoom() + 1
           });
         }
         this.map.updateSize();

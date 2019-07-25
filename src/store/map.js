@@ -72,6 +72,7 @@ import {
 let hoverLayer, clickLayer, hoverFullPoint, clickFullPoint;
 
 const init2Map = () => {
+  config['MAP_VIEW']["zoom"] -= 1;
   let map = new Map({
     view: new View(config['MAP_VIEW']),
     logo: false,
@@ -148,6 +149,32 @@ export default {
       6: {
         name: ">5.0m",
         color: "rgba(51,205,50,0.4)"
+      }
+    },
+    floodingColors2d: { //由浅入深
+      1: {
+        name: "<0.5m  ",
+        color: "rgba(166,255,0,0.6)"
+      },
+      2: {
+        name: "0.5~1.0m",
+        color: "rgba(130,246,48,0.6)"
+      },
+      3: {
+        name: "1.0~1.5m",
+        color: "rgba(82,241,58,0.6)"
+      },
+      4: {
+        name: "1.5~2.0m",
+        color: "rgba(29,236,64,0.6)"
+      },
+      5: {
+        name: "2.5~5.0m",
+        color: "rgba(34,222,49,0.6)"
+      },
+      6: {
+        name: ">5.0m",
+        color: "rgba(51,205,50,0.6)"
       }
     },
     hoverLayer: hoverLayer,
@@ -354,60 +381,15 @@ export default {
 
     //一张图模糊查询地图服务
     overAllSearchMapservices: [{
-        name: '设计院-水库', //向家坝
-        url: `/map178/rest/services/cjcenter/长江流域水库/MapServer/find?layers=0&f=pjson&searchFields=测站名称&searchText=`
-      }, {
-        name: '设计院-雨量站', //松潘  崇庆  中江 理塘 名山
-        url: `/map178/rest/services/cjcenter/长江流域雨量站/MapServer/find?layers=0&f=pjson&searchFields=STNM&searchText=`
-      }, {
-        name: '设计院-水文站', //向家坝   
-        url: `/map178/rest/services/cjcenter/长江流域水文站3857new/MapServer/find?layers=1&f=pjson&searchFields=测站名称&searchText=`
-      }, {
-        name: '设计院-河流', //长江
-        url: `/map172166/rest/services/basemap/cjriver/MapServer/find?layers=49&f=pjson&searchFields=河名&searchText=`
-      },
-      {
-        name: '设计院-水闸', //蔡家湖闸
-        url: `/map178/rest/services/cjcenter/水闸/MapServer/find?layers=1&f=pjson&searchFields=MC&searchText=`
-      }, {
-        name: '设计院-泵站', //杨河泵站
-        url: `/map178/rest/services/cjcenter/泵站/MapServer/find?layers=1&f=pjson&searchFields=MC&searchText=`
-      }, {
-        name: '设计院-蓄滞洪区', //六角山
-        url: `/map178/rest/services/cjcenter/蓄滞洪区分布/MapServer/find?layers=0&f=pjson&searchFields=XZHQMC&searchText=`
-      }
-      // {
-      //   name: '一级河流', //赤水河
-      //   url: `/map116/rest/services/WATER/RV_V/MapServer/find?layers=45&f=pjson&searchFields=HLMC&searchText=`
-      // },
-      // {
-      //   name: '湖泊', //太湖、洞庭湖
-      //   url: `/map116/rest/services/WATER/LK/MapServer/find?layers=0&searchFields=NAME&f=pjson&searchText=`
-      // },
-      // {
-      //   name: '泵站', //东枢纽工程泵站
-      //   url: `/map116/rest/services/WATER/PUST_R/MapServer/find?layers=1&searchFields=JC&f=pjson&searchText=`
-      // }, 
-      // {
-      //   name: "长江委一张图-涉水建筑物-水库", //洪门水库
-      //   url: `/map116/rest/services/WATER/RES_V/MapServer/find?layers=1&searchFields=NAME&f=pjson&searchText=`
-      // }
-      // ,
-      // {
-      //   name: "水利企业", //溧阳水务集团有限公司
-      //   url: "/map116/rest/services/WATER/WAEN_R/MapServer/find?layers=1&searchFields=NAME&f=pjson&searchText="
-      // },
-      // //厄瓜多尔-水文站  
-      // {
-      //   name: "水文站", //Mira
-      //   url: "/map92/rest/services/basemap/%E5%8E%84%E7%93%9C%E5%A4%9A%E5%B0%94/MapServer/find?contains=true&searchFields=dmr&sr=&layers=3&layerDefs=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&dynamicLayers=&returnZ=false&returnM=false&gdbVersion=&f=pjson&searchText="
-      // },
-      // //Jama
-      // {
-      //   name: "主要城市", //Jama
-      //   url: "/map92/rest/services/basemap/%E5%8E%84%E7%93%9C%E5%A4%9A%E5%B0%94/MapServer/find?contains=true&searchFields=nombre&sr=&layers=4&layerDefs=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&dynamicLayers=&returnZ=false&returnM=false&gdbVersion=&f=pjson&searchText="
-      // }
-    ],
+      name: '水闸', //蔡家湖闸
+      url: `/map178/rest/services/cjcenter/水闸/MapServer/find?layers=1&f=pjson&searchFields=MC&searchText=`
+    }, {
+      name: '泵站', //杨河泵站
+      url: `/map178/rest/services/cjcenter/泵站/MapServer/find?layers=1&f=pjson&searchFields=MC&searchText=`
+    }, {
+      name: '蓄滞洪区', //六角山
+      url: `/map178/rest/services/cjcenter/蓄滞洪区分布/MapServer/find?layers=0&f=pjson&searchFields=XZHQMC&searchText=`
+    }],
     riverSectionWQLayer: null,
     //basemap selector
     basemapList: {},

@@ -3,8 +3,8 @@
   <cj-collapse title="工具"
                class="maptool"
                icon="ios-construct">
-    <point-pick v-show="!is3dMap"></point-pick>
-    <cj-identify v-show="!is3dMap"></cj-identify>
+    <!-- <point-pick v-show="!is3dMap"></point-pick>
+    <cj-identify v-show="!is3dMap"></cj-identify> -->
     <full-screen></full-screen>
     <measure-area />
     <measure-dis />

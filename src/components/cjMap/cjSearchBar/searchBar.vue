@@ -64,7 +64,7 @@ export default {
         } else if (dropDown == "identifyContents") {
           return identifyContents;
         } else if (dropDown == "suggestContent") {
-          return suggestContent;
+          // return suggestContent;
         }
       },
       set(value) {
