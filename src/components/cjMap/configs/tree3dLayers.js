@@ -76,13 +76,12 @@ export default [{
       "geoType": "polygon",
       "layerName": "xushihongqu",
       "visible": false,
-      "layerUrl": "/map178/rest/services/cjcenter/蓄滞洪区分布/MapServer/tile/{z}/{y}/{x}",
+      "layerUrl": "/map172166/rest/services/XZHQ/XZHQ/MapServer/tile/{z}/{y}/{x}",
       "queryConfig": {
         "name": "蓄滞洪区",
-        "url": "/map178/rest/services/cjcenter/蓄滞洪区分布/MapServer/identify",
+        "url": "/map172166/rest/services/XZHQ/XZHQ/MapServer/identify",
         "canquery": false
       }
     }
   ]
-
 }]

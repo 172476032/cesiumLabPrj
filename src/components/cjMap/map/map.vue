@@ -79,7 +79,8 @@ export default {
       stcd: "",
       selection: {},
       vectorTileLayers: [],
-      floodShow: false
+      floodShow: false,
+      cords:[]
     };
   },
   components: {
