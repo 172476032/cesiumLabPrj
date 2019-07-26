@@ -1,7 +1,7 @@
 <template>
   <Modal v-model="modalShow"
          ref="monitorModal"
-         :title="`${featureName}[${mapServerName}]`"
+         :title="`${featureName}`"
          draggable
          footer-hide
          class="map-click-info-modal"

@@ -1479,6 +1479,48 @@
    return (S4() + S4());
  }
 
+ //--getSelectedEntityProps--start-----自己封装的获取cesium的infoBox的属性信息，通过回调函数返回属性对象{}
+ const getSelectedEntityProps = (callback, viewer) => {
+   if (viewer.selectedEntity instanceof Cesium.Entity) {
+     console.log("选中的实体", viewer.selectedEntity);
+     let interval = setInterval(() => {
+       console.log("我在loading实体属性", viewer.selectedEntity);
+       if (viewer.selectedEntity.id != "Loading...") {
+         window.clearInterval(interval);
+         if (viewer.selectedEntity.id != "None") {
+           let props = praseTableString(
+             viewer.selectedEntity.description.getValue()
+           );
+           callback(props)
+         }
+       }
+     }, 1000);
+   }
+ }
+
+ const praseTableString = (tablestring) => {
+   let div = document.createElement("div");
+   div.innerHTML = tablestring;
+   console.log("div: ", div);
+   let trs = div.getElementsByTagName("table")[0].children[0].childNodes,
+     props = {};
+   trs.forEach(tr => {
+     let key, value;
+     tr.childNodes.forEach((td, i) => {
+       console.log("tdname", td, td.innerText);
+       if (i == 0) {
+         key = td.innerText;
+       } else {
+         value = td.innerText;
+       }
+     });
+     props[key] = value;
+   });
+   console.log("实体解析后的属性对象", props);
+   return props;
+ }
+ //--------getSelectedEntityProps--end
+
  export {
    showPopup,
    tempStyles,
@@ -1537,5 +1579,6 @@
    arryRemove,
    oneOf,
    findComponentUpward,
-   changeKeys
+   changeKeys,
+   getSelectedEntityProps
  };

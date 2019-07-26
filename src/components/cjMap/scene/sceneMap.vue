@@ -26,7 +26,10 @@ import flooding3dDeduction from "@/components/cjMap/floodingDeduction/flooding3d
 import Cesium from "cesium/Cesium";
 import "cesium/Widgets/widgets.css";
 import CesiumNavigation from "cesium-navigation-es6";
-import { screenToLonlatCoords } from "@/script/mapUtils/myMaputils/myUtils.js";
+import {
+  screenToLonlatCoords,
+  getSelectedEntityProps
+} from "@/script/mapUtils/myMaputils/myUtils.js";
 import bus from "@/script/bus.js";
 import axios from "axios";
 //投影
@@ -85,7 +88,7 @@ export default {
         homeButton: false,
         navigationHelpButton: false,
         animation: false,
-        infoBox: true,
+        infoBox: false,
         requestRenderMode: true,
         imageryProvider: new Cesium.WebMapTileServiceImageryProvider({
           url:
@@ -137,7 +140,7 @@ export default {
     },
     onClockTick(viewer) {
       viewer.clock.onTick.addEventListener(() => {
-        console.log("选中的实体", viewer.selectedEntity);
+        console.log("ontick选中的实体", viewer.selectedEntity);
       });
     },
     //添加地形
@@ -350,7 +353,6 @@ export default {
           if (pick instanceof Cesium.Cesium3DTileFeature) {
             //3dtile feature获取方式
           } else if (pick.id) {
-            //实体的获取方式
           }
         }
         setTimeout(() => {
@@ -359,20 +361,59 @@ export default {
         // this.identity(viewer, evt.position.x, evt.position.y);
         console.log("相机视角", viewer.scene.camera);
 
-        //监测选中的实体
-        if (viewer.selectedEntity) {
-          console.log("选中的实体", viewer.selectedEntity);
-          this.praseTableString(viewer.selectedEntity.description.getValue());
-        }
+        //实体属性对象获取并弹出信息框
+        // this.getSelectedEntityProps(viewer);
+        getSelectedEntityProps(props => {
+          console.log("props: ", props);
+          bus.$emit("on-search-list-click-show-modal", {
+            mapServerName: "",
+            featureName: viewer.selectedEntity.id,
+            attributes: props
+          });
+        }, viewer);
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
+    getSelectedEntityProps(viewer) {
+      if (viewer.selectedEntity instanceof Cesium.Entity) {
+        console.log("选中的实体", viewer.selectedEntity);
+        let interval = setInterval(() => {
+          console.log("我在loading实体属性", viewer.selectedEntity);
+          if (viewer.selectedEntity.id != "Loading...") {
+            window.clearInterval(interval);
+            if (viewer.selectedEntity.id != "None") {
+              let props = this.praseTableString(
+                viewer.selectedEntity.description.getValue()
+              );
+              bus.$emit("on-search-list-click-show-modal", {
+                mapServerName: "图层对象",
+                featureName: viewer.selectedEntity.id,
+                attributes: props
+              });
+            }
+          }
+        }, 1000);
+      }
+    },
     praseTableString(tablestring) {
-      setTimeout(() => {
-        console.log("tablestring: ", tablestring);
-      }, 2000);
       let div = document.createElement("div");
       div.innerHTML = tablestring;
       console.log("div: ", div);
+      let trs = div.getElementsByTagName("table")[0].children[0].childNodes,
+        props = {};
+      trs.forEach(tr => {
+        let key, value;
+        tr.childNodes.forEach((td, i) => {
+          console.log("tdname", td, td.innerText);
+          if (i == 0) {
+            key = td.innerText;
+          } else {
+            value = td.innerText;
+          }
+        });
+        props[key] = value;
+      });
+      console.log("实体解析后的属性对象", props);
+      return props;
     },
     //《《《《------添加广告牌图层--------------------------------------------
     addBillBoardLayer(viewer) {
