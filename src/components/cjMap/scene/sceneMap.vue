@@ -245,7 +245,13 @@ export default {
         imageryLayer = new Cesium.ImageryLayer(
           new Cesium.ArcGisMapServerImageryProvider(
             {
-              url: pUrl
+              url: pUrl,
+              rectangle: Cesium.Rectangle.fromDegrees(
+                112.17,
+                28.95,
+                113.26,
+                29.9
+              )
             },
             index
           ),

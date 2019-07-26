@@ -46,10 +46,10 @@ export default [{
       "geoType": "point",
       "layerName": "bangzhan",
       "visible": false,
-      "layerUrl": "/map178/rest/services/cjcenter/泵站/MapServer/tile/{z}/{y}/{x}",
+      "layerUrl": "/map172166/rest/services/XZHQ/BZ/MapServer/tile/{z}/{y}/{x}",
       "queryConfig": {
         "name": "泵站",
-        "url": "/map178/rest/services/cjcenter/泵站/MapServer/identify",
+        "url": "/map172166/rest/services/XZHQ/BZ/MapServer/identify",
         "canquery": false
       }
     }, {
