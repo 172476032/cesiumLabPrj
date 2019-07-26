@@ -130,7 +130,15 @@ export default {
         bus.$emit("inintMap3dZoom");
         bus.$emit("initMap3dRotate");
         bus.$emit("initMap3dLocInfo");
+        //注册clock事件
+        // this.onClockTick(this.Viewer);
+        this.aboveTerrain(this.Viewer);
       }, this.delayInitTime);
+    },
+    onClockTick(viewer) {
+      viewer.clock.onTick.addEventListener(() => {
+        console.log("选中的实体", viewer.selectedEntity);
+      });
     },
     //添加地形
     addTerrain(viewer) {
@@ -350,9 +358,22 @@ export default {
         }, 5000);
         // this.identity(viewer, evt.position.x, evt.position.y);
         console.log("相机视角", viewer.scene.camera);
+
+        //监测选中的实体
+        if (viewer.selectedEntity) {
+          console.log("选中的实体", viewer.selectedEntity);
+          this.praseTableString(viewer.selectedEntity.description.getValue());
+        }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
-
+    praseTableString(tablestring) {
+      setTimeout(() => {
+        console.log("tablestring: ", tablestring);
+      }, 2000);
+      let div = document.createElement("div");
+      div.innerHTML = tablestring;
+      console.log("div: ", div);
+    },
     //《《《《------添加广告牌图层--------------------------------------------
     addBillBoardLayer(viewer) {
       axios
@@ -427,6 +448,28 @@ export default {
       layer0.gamma = 0.66;
       layer0.minificationFilter = Cesium.TextureMinificationFilter.NEAREST;
       layer0.magnificationFilter = Cesium.TextureMagnificationFilter.NEAREST;
+    },
+    //相近避免进入地下
+    aboveTerrain(viewer) {
+      viewer.clock.onTick.addEventListener(function() {
+        if (viewer.camera.pitch > 0) {
+          viewer.scene.screenSpaceCameraController.enableTilt = false;
+        }
+      });
+      var mousePosition, startMousePosition;
+      var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+      handler.setInputAction(function(movement) {
+        mousePosition = startMousePosition = Cesium.Cartesian3.clone(
+          movement.position
+        );
+        handler.setInputAction(function(movement) {
+          mousePosition = movement.endPosition;
+          var y = mousePosition.y - startMousePosition.y;
+          if (y > 0) {
+            viewer.scene.screenSpaceCameraController.enableTilt = true;
+          }
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+      }, Cesium.ScreenSpaceEventType.MIDDLE_DOWN);
     }
   },
   destroyed() {}

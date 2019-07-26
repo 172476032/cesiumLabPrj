@@ -202,10 +202,10 @@ export default [{
       "geoType": "polygon",
       "layerName": "heduannew",
       "visible": true,
-      "layerUrl": "/map172166/rest/services/heduan/MapServer/tile/{z}/{y}/{x}",
+      "layerUrl": "/map172166/rest/services/demos/heduan3857/MapServer/tile/{z}/{y}/{x}",
       "queryConfig": {
         "name": "河段",
-        "url": "/map172166/rest/services/heduan_new/MapServe/identify",
+        "url": "/map172166/rest/services/demos/heduan3857/MapServer/identify",
         "canquery": true
       }
     },
@@ -217,7 +217,7 @@ export default [{
       "type": "VECTORTILE",
       "geoType": "polygon",
       "layerName": "newcjXZHQnew1",
-      "visible": false,
+      "visible": true,
       "layerUrl": "/geoserver166/gwc/service/tms/1.0.0/new:cjXZHQnew1@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
       vectorConfig: {
         zoom: 0,

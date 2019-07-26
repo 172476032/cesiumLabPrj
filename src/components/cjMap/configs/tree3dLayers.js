@@ -52,36 +52,37 @@ export default [{
         "url": "/map178/rest/services/cjcenter/泵站/MapServer/identify",
         "canquery": false
       }
-    } ,{
-    "id": "10001",
-    "name": "河段",
-    "isRoot": false,
-    "icon": def,
-    "type": "WMTS",
-    "geoType": "polygon",
-    "layerName": "heduannew",
-    "visible": false,
-    "layerUrl": "/map172166/rest/services/heduan_new/MapServer/tile/{z}/{y}/{x}",
-    "queryConfig": {
+    }, {
+      "id": "10001",
       "name": "河段",
-      "url": "/map172166/rest/services/heduan/MapServer/identify",
-      "canquery": false
-    }
-  }, {
-    "id": "10002",
-    "name": "蓄滞洪区",
-    "isRoot": false,
-    "icon": def,
-    "type": "WMTS",
-    "geoType": "polygon",
-    "layerName": "xushihongqu",
-    "visible": false,
-    "layerUrl": "/map178/rest/services/cjcenter/蓄滞洪区分布/MapServer/tile/{z}/{y}/{x}",
-    "queryConfig": {
+      "isRoot": false,
+      "icon": def,
+      "type": "WMTS",
+      "geoType": "polygon",
+      "layerName": "heduannew",
+      "visible": false,
+      "layerUrl": "/map172166/rest/services/demos/heduan3857/MapServer/tile/{z}/{y}/{x}",
+      "queryConfig": {
+        "name": "河段",
+        "url": "/map172166/rest/services/demos/heduan3857/MapServer/identify",
+        "canquery": false
+      }
+    }, {
+      "id": "10002",
       "name": "蓄滞洪区",
-      "url": "/map178/rest/services/cjcenter/蓄滞洪区分布/MapServer/identify",
-      "canquery": false
+      "isRoot": false,
+      "icon": def,
+      "type": "WMTS",
+      "geoType": "polygon",
+      "layerName": "xushihongqu",
+      "visible": false,
+      "layerUrl": "/map178/rest/services/cjcenter/蓄滞洪区分布/MapServer/tile/{z}/{y}/{x}",
+      "queryConfig": {
+        "name": "蓄滞洪区",
+        "url": "/map178/rest/services/cjcenter/蓄滞洪区分布/MapServer/identify",
+        "canquery": false
+      }
     }
-  }]
+  ]
 
 }]
