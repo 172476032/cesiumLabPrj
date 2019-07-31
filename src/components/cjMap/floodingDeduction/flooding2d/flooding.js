@@ -55,6 +55,11 @@ export default {
           this.$store.state.map.sortGroupGrids3857Length = this.sortGroupGrids3857.length
           this.createLayer()
         }
+        //关闭所有图层
+        this.$store.commit("toggleAllLayers", {
+          type: "two",
+          show: false
+        })
         this.floodShow = true;
         this.flyTo();
       } else if (name == "closeFloodPanel") {

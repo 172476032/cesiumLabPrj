@@ -43,6 +43,11 @@ export default {
           console.log('sortGroupGrids: ', this.sortGroupGrids);
           this.$store.state.map.sortGroupGridsLength = this.sortGroupGrids.length
         }
+        //关闭蓄滞洪区、河段图层
+        this.$store.commit("toggleAllLayers", {
+          type: "three",
+          show: false
+        })
         this.floodShow = true;
         this.flyTo();
       } else if (name == "closeFloodPanel") {
@@ -50,6 +55,7 @@ export default {
         this.reset()
       }
     },
+
     intervalSetting(sortGroupGrids) {
       this.timeInterval = setInterval(() => {
         if (this.arrivalIndex == sortGroupGrids.length) { //sortGroupGrids.length - 1

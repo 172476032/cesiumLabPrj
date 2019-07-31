@@ -68,6 +68,7 @@ import {
   removeAllOverlay,
   arryRemove
 } from '@/script/mapUtils/myMaputils/myUtils.js';
+import tree2dLayers from "../components/cjMap/configs/tree2dLayers";
 
 let hoverLayer, clickLayer, hoverFullPoint, clickFullPoint;
 
@@ -108,7 +109,29 @@ const createFullPoints = (hoverLayer, clickLayer) => {
   clickLayer.getSource().addFeature(clickFullPoint)
 }
 
+const treeLayersForeach = (treeconfigs, payload) => {
+  treeconfigs.forEach(v => {
+    if (v.type && v.layerName) {
+      if (payload.layerName == v.layerName) {
+        v.visible = payload.show
+      }
+    }
+    if (v.children) {
+      treeLayersForeach(v.children, payload)
+    }
+  })
+}
 
+const toggleAllLayers = (treeconfigs, show) => {
+  treeconfigs.forEach(v => {
+    if (v.type) {
+      v.visible = show
+    }
+    if (v.children) {
+      toggleAllLayers(v.children, show)
+    }
+  })
+}
 
 export default {
   state: {
@@ -396,6 +419,25 @@ export default {
 
   },
   mutations: {
+    //切换二维、三维同层显示与隐藏
+    toggleLayerByName: (state, payload) => {
+      console.log('payload: ', payload);
+      if (payload.layerName) {
+        if (payload.type == "two") {
+          treeLayersForeach(state.treeConfigs, payload)
+        } else if (payload.type == "three") {
+          treeLayersForeach(state.tree3dConfigs, payload)
+        }
+      }
+    },
+    //隐藏二维、三维的所有图层
+    toggleAllLayers: (state, payload) => {
+      if (payload.type == "two") {
+        toggleAllLayers(state.treeConfigs, payload.show)
+      } else if (payload.type == "three") {
+        toggleAllLayers(state.tree3dConfigs, payload.show)
+      }
+    },
     //清除交互产生的要素,目前有点拾取\宏数数据坐标点查看标注
     clearAddedLayersSource: (state) => {
       if (state.addedLayers.length > 0) {

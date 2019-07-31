@@ -74,7 +74,7 @@ export default [{
       "icon": def,
       "type": "WMTS",
       "geoType": "polygon",
-      "layerName": "xushihongqu",
+      "layerName": "newcjXZHQnew",
       "visible": false,
       "layerUrl": "/map172166/rest/services/XZHQ/XZHQ/MapServer/tile/{z}/{y}/{x}",
       "queryConfig": {

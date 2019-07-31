@@ -58,9 +58,10 @@ export default {
     },
     vtClick(map, e) {
       let f = map.getFeaturesAtPixel(e.pixel);
-      // console.log("f: ", f);
+      console.log("f: ", f);
       if (f) {
-        f.forEach(v => {
+        for (let i = 0; i < f.length; i++) {
+          let v = f[i]
           //矢量瓦片的特有feature
           //对点状要素禁止交互，优化流畅度
           if (
@@ -110,8 +111,10 @@ export default {
               featureName: labelName,
               attributes: props
             });
+            console.log('v: ', v);
+            break; //click会依次获取点击到的点、线、面要素，按照index添加到数组内，渲染第一个，然后终止
           }
-        });
+        };
       }
     },
     showModal(data) {
