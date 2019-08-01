@@ -103,15 +103,15 @@ export default {
       });
       window.Cesium = Cesium;
       window.Viewer = this.Viewer;
-      //初始化视角动画
+      // 初始化视角动画
       this.initCamera(this.Viewer);
     },
     //-----------添加基础图层------------------------------------》》》
-    //动画效果
+    // 动画效果
     initCamera(viewer) {
       console.log("我要飞起来");
       viewer.camera.setView({
-        //目前为美国远视角
+        // 目前为美国远视角
         destination: new Cesium.Cartesian3(
           -900242.9156382445, // -5840604.099510539,
           -45156014.56458725, // 24138490.672504395,
@@ -125,9 +125,9 @@ export default {
       });
       setTimeout(() => {
         this.initLayers(this.Viewer, treeLayers);
-        this.addLeftClickEvent(Cesium, this.Viewer); //初始化图层
+        this.addLeftClickEvent(Cesium, this.Viewer); // 初始化图层
         this.addTerrain(viewer);
-        //添加导航
+        // 添加导航
         CesiumNavigation(this.Viewer, this.options);
         //控件初始化
         bus.$emit("inintMap3dZoom");
@@ -143,7 +143,10 @@ export default {
         console.log("ontick选中的实体", viewer.selectedEntity);
       });
     },
-    //添加地形
+    /**
+     * 添加地形
+     * @viewer viewer
+     */
     addTerrain(viewer) {
       let rectangle = new Cesium.Rectangle(
         Cesium.Math.toRadians(111.5623),
