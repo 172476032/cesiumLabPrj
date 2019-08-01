@@ -36,6 +36,12 @@ import axios from "axios";
 import { transform } from "ol/proj";
 import treeLayers from "../configs/tree3dLayers";
 import flooding from "@/components/cjMap/floodingDeduction/flooding3d/flooding.js";
+import sky_mx from "../../../assets/cesium_theme/skyBox/sky_mx.jpg";
+import sky_my from "../../../assets/cesium_theme/skyBox/sky_my.jpg";
+import sky_mz from "../../../assets/cesium_theme/skyBox/sky_mz.jpg";
+import sky_py from "../../../assets/cesium_theme/skyBox/sky_py.jpg";
+import sky_px from "../../../assets/cesium_theme/skyBox/sky_px.jpg";
+import sky_pz from "../../../assets/cesium_theme/skyBox/sky_pz.jpg";
 const img = "/static/map/pointicon.png";
 
 export default {
@@ -90,6 +96,18 @@ export default {
         animation: false,
         infoBox: false,
         requestRenderMode: true,
+        skyBox: new Cesium.SkyBox({
+          sources: {
+            positiveX: sky_px,
+            negativeX: sky_mx,
+            positiveY: sky_py,
+            negativeY: sky_my,
+            positiveZ: sky_pz,
+            negativeZ: sky_mz
+          },
+          show: true
+        }),
+        skyAtmosphere: new Cesium.SkyAtmosphere(),
         imageryProvider: new Cesium.WebMapTileServiceImageryProvider({
           url:
             "http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=b97312f85a240009c717a8480b6d54d2",
