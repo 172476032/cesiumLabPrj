@@ -69,6 +69,18 @@ export default [{
         "canquery": false
       }
     }, {
+      "id": "13443",
+      "name": "泵站",
+      "isRoot": false,
+      "icon": bengzhan,
+      "type": "DATASOURCE",
+      "geoType": "point",
+      "layerName": "bangzhandatasource",
+      "visible": false,
+      "layerIcon": bengzhan,
+      "layerUrl": "/map229/rest/services/泵站3/MapServer/0/query?where=1=1&outFields=*&f=pjson",
+
+    }, {
       "id": "103201",
       "name": "地名",
       "isRoot": false,
