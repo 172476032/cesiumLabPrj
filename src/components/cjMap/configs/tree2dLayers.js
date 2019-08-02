@@ -210,6 +210,21 @@ export default [{
           });
         }
       }
+    }, {
+      id: '10134',
+      name: '地名',
+      isRoot: false,
+      icon: def,
+      type: 'WMTS',
+      geoType: 'point',
+      layerName: 'adresslayer',
+      visible: true,
+      layerUrl: '/map172166/rest/services/XZHQ/JMD/MapServer/tile/{z}/{y}/{x}',
+      queryConfig: {
+        name: '地名',
+        url: '/map172166/rest/services/XZHQ/JMD/MapServer/identify',
+        canquery: false
+      }
     },
     {
       id: '10104',

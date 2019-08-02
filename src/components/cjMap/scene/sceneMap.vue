@@ -48,7 +48,6 @@ export default {
   name: "scenemap",
   data() {
     return {
-      treeLayers: treeLayers,
       options: {
         enableCompass: false,
         enableZoomControls: false,
@@ -56,7 +55,6 @@ export default {
       },
       payLoad: null,
       floodShow: false,
-      Viewer: null,
       delayInitTime: 3000,
       terrain30: "/cesiumlab/terrain/sxjj/tiff30",
       terrainmosic: "/cesiumlab/terrain/sxjj/demmasioc",
@@ -85,7 +83,7 @@ export default {
   methods: {
     initSceneMap() {
       console.log("场景初始化");
-      this.Viewer = new Cesium.Viewer("sceneMap", {
+      let viewer = new Cesium.Viewer("sceneMap", {
         baseLayerPicker: false,
         fullscreenButton: false,
         sceneModePicker: false,
@@ -104,10 +102,9 @@ export default {
             negativeY: sky_my,
             positiveZ: sky_pz,
             negativeZ: sky_mz
-          },
-          show: true
+          }
         }),
-        skyAtmosphere: new Cesium.SkyAtmosphere(),
+        // skyAtmosphere: new Cesium.SkyAtmosphere(),
         imageryProvider: new Cesium.WebMapTileServiceImageryProvider({
           url:
             "http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=b97312f85a240009c717a8480b6d54d2",
@@ -119,10 +116,9 @@ export default {
         }) // 天地图影像
         // terrainProvider: Cesium.createWorldTerrain() //建议不要加载全球地形
       });
-      window.Cesium = Cesium;
-      window.Viewer = this.Viewer;
+      window.Viewer = viewer;
       // 初始化视角动画
-      this.initCamera(this.Viewer);
+      this.initCamera(viewer);
     },
     //-----------添加基础图层------------------------------------》》》
     // 动画效果
@@ -142,18 +138,19 @@ export default {
         }
       });
       setTimeout(() => {
-        this.initLayers(this.Viewer, treeLayers);
-        this.addLeftClickEvent(Cesium, this.Viewer); // 初始化图层
+        this.initLayers(window.Viewer, treeLayers);
+        this.addLeftClickEvent(Cesium, window.Viewer); // 初始化图层
         this.addTerrain(viewer);
+        // this.addBillBoardLayer(viewer)
         // 添加导航
-        CesiumNavigation(this.Viewer, this.options);
+        CesiumNavigation(window.Viewer, this.options);
         //控件初始化
         bus.$emit("inintMap3dZoom");
         bus.$emit("initMap3dRotate");
         bus.$emit("initMap3dLocInfo");
         //注册clock事件
-        // this.onClockTick(this.Viewer);
-        this.aboveTerrain(this.Viewer);
+        // this.onClockTick(window.Viewer);
+        this.aboveTerrain(window.Viewer);
       }, this.delayInitTime);
     },
     onClockTick(viewer) {

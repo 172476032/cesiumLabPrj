@@ -21,6 +21,9 @@
 <script>
 import layerTree from "./layerTree.vue";
 import _ from "lodash";
+import axios from "axios";
+import { transform } from "ol/proj";
+
 import Cesium from "cesium/Cesium";
 let nodeSate = null;
 
@@ -78,8 +81,11 @@ export default {
           }
         }
         console.log("图层管理器选择的图层对象列表：", this.select3dTreeLayers);
+      } else if (model.type == "DATASOURCE") {
+        this.setDataSourceLayerShow(model);
       }
     },
+
     //设置三维图层的显示隐藏
     setImageryLayerShow(model) {
       if (model.imageryLayerIndex) {
@@ -234,6 +240,103 @@ export default {
         .otherwise(error => {
           console.log("加载3dmodel失败", error);
         });
+    },
+    // 设置前端渲染图层的显示隐藏
+    setDataSourceLayerShow(model) {
+      if (typeof model.dataSourceIndex != "undefined") {
+        let dataSourceLayer = window.Viewer.dataSources.get(
+          model.dataSourceIndex
+        );
+        dataSourceLayer.show = model.visible;
+        console.log("获取datasource图层成功");
+        window.Viewer.zoomTo(dataSourceLayer);
+      } else {
+        model.dataSourceIndex = this.$store.state.map.dataSourceIndex++;
+        this.createDataSourceLayer(
+          layer => {
+            console.log("实体添加完成", new Date());
+            window.Viewer.dataSources.add(layer);
+            window.Viewer.zoomTo(layer);
+          },
+          window.Viewer,
+          model.layerUrl,
+          model.layerIcon,
+          model.visible
+        );
+      }
+    },
+    // 添加数据资源图层，该资源图层是以entityCollection进行管理的,所有该资源图层下面的entity具有统一的id，方便切换显示隐藏的管理start
+    createDataSourceLayer(callback, viewer, url, imgSrc, visible) {
+      // 1、创建datasource，并把datasource通过view.dataSources.add(datasource)添加到view,通过设置设置show属性来控制隐藏或消失
+      let dataSource = new Cesium.CustomDataSource();
+      // 2、创建entityCollection集合，也可通过entityCollection的show属性来控制显示隐藏
+      // entityCollection = new Cesium.EntityCollection(dataSource);
+      dataSource.show = visible;
+      // 3、向entityCollection集合内添加entity
+      axios.get(url).then(data => {
+        console.log("数据请求完成", new Date(), data);
+        if (data.data && data.data.features && data.data.features.length > 0) {
+          let imgEl = document.createElement("img");
+          imgEl.onload = () => {
+            data.data.features.forEach(v => {
+              let lonlat = transform(
+                [v.geometry.x, v.geometry.y],
+                "EPSG:3857",
+                "EPSG:4326"
+              );
+              dataSource.entities.add(
+                this.addBillBoard(lonlat, imgEl, v.attributes.MC, 12, 1)
+              );
+            });
+            callback(dataSource);
+          };
+          imgEl.src = imgSrc;
+        } else {
+          this.$Message("无图层数据");
+        }
+      });
+    },
+    /**
+     * viewer
+     * lonlat:[112,32]
+     * imgSrc:"../../../../static/map/layertree/水库.png"
+     * tetx:"asas"
+     */
+    addBillBoard(lonlat, imgEl, text, fontsize, scale) {
+      return {
+        position: Cesium.Cartesian3.fromDegrees(lonlat[0], lonlat[1]),
+        billboard: {
+          image: this.drawCanvas(imgEl, text, fontsize), // default: undefined
+          show: true, // default
+          // pixelOffset: new Cesium.Cartesian2(0, -50), // default: (0, 0)
+          eyeOffset: new Cesium.Cartesian3(0.0, 0.0, 0.0), // default
+          horizontalOrigin: Cesium.HorizontalOrigin.LEFT, // default
+          verticalOrigin: Cesium.VerticalOrigin.CENTER, // default: CENTER
+          scale: scale, // default: 1.0
+          // color: Cesium.Color.LIME, // default: WHITE
+          // rotation: Cesium.Math.PI_OVER_FOUR, // default: 0.0
+          alignedAxis: Cesium.Cartesian3.ZERO // default
+          // width: 100, // default: undefined
+          // height: 25 // default: undefined
+        }
+      };
+    },
+    drawCanvas(imgEl, text, fontsize) {
+      let canvas = document.createElement("canvas"), //创建canvas标签
+        ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#99f";
+      ctx.font = fontsize + "px Arial";
+      canvas.width = ctx.measureText(text).width + fontsize * 2; //根据文字内容获取宽度
+      canvas.height = fontsize * 2; // fontsize * 1.5
+      ctx.drawImage(imgEl, fontsize / 2, fontsize / 2, fontsize, fontsize);
+      ctx.fillStyle = "red";
+      ctx.font = fontsize + "px Calibri,sans-serif";
+      ctx.shadowOffsetX = 1; //阴影往左边偏，横向位移量
+      ctx.shadowOffsetY = 0; //阴影往左边偏，纵向位移量
+      ctx.shadowColor = "#fff"; //阴影颜色
+      ctx.shadowBlur = 1; //阴影的模糊范围
+      ctx.fillText(text, (fontsize * 7) / 4, (fontsize * 4) / 3);
+      return canvas;
     }
   }
 };

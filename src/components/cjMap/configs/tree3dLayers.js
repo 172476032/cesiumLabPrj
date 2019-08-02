@@ -52,7 +52,8 @@ export default [{
         "url": "/map172166/rest/services/XZHQ/BZ/MapServer/identify",
         "canquery": false
       }
-    }, {
+    },
+    {
       "id": "10001",
       "name": "河段",
       "isRoot": false,
@@ -65,6 +66,21 @@ export default [{
       "queryConfig": {
         "name": "河段",
         "url": "/map172166/rest/services/demos/heduan3857/MapServer/identify",
+        "canquery": false
+      }
+    }, {
+      "id": "103201",
+      "name": "地名",
+      "isRoot": false,
+      "icon": def,
+      "type": "WMTS",
+      "geoType": "point",
+      "layerName": "adresslayer",
+      "visible": false,
+      "layerUrl": "/map172166/rest/services/XZHQ/JMD/MapServer/tile/{z}/{y}/{x}",
+      "queryConfig": {
+        "name": "地名",
+        "url": "/map172166/rest/services/XZHQ/JMD/MapServer/identify",
         "canquery": false
       }
     }, {

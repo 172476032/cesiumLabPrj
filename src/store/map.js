@@ -216,6 +216,7 @@ export default {
     addedLayers: [], //存储交互的图层对象
     modelIndex: 0,
     imageryLayerIndex: 0,
+    dataSourceIndex: 0,
     locationArea: {
       厄瓜多尔: {
         two: {
