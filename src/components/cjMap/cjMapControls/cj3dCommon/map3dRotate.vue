@@ -24,13 +24,14 @@ import Cesium from "cesium/Cesium";
 import bus from "@/script/bus.js";
 import _ from "lodash";
 
+let Viewer;
+
 export default {
   name: "map_rotate",
   data() {
     return {
       rotateDegree: 0,
-      onceRotateDegree: 5,
-      viewer: null
+      onceRotateDegree: 5
     };
   },
   computed: {
@@ -48,28 +49,24 @@ export default {
         console.log("我是三维旋转控件，我需要window.Viewer对象");
         if (window.Viewer instanceof Cesium.Viewer) {
           window.clearInterval(interval);
-          this.viewer = window.Viewer;
+          Viewer = window.Viewer;
         }
       }, 1000);
     },
     rotateClockwise() {
-      if (this.viewer instanceof Cesium.Viewer) {
-        this.viewer.camera.rotateLeft(
-          Cesium.Math.toRadians(this.onceRotateDegree)
-        );
+      if (Viewer instanceof Cesium.Viewer) {
+        Viewer.camera.rotateLeft(Cesium.Math.toRadians(this.onceRotateDegree));
       }
     },
     rotateNorth() {
-      this.viewer.camera.setView({
+      Viewer.camera.setView({
         orientation: {
           heading: Cesium.Math.toRadians(0)
         }
       });
     },
     rotateInverseClockwise() {
-      this.viewer.camera.rotateRight(
-        Cesium.Math.toRadians(this.onceRotateDegree)
-      );
+      Viewer.camera.rotateRight(Cesium.Math.toRadians(this.onceRotateDegree));
     }
   },
   watch: {}

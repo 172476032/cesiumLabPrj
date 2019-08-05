@@ -70,11 +70,11 @@ export default {
     },
     reset() {
       //删除primitives
-      this.Viewer.scene.primitives.removeAll();
+      window.Viewer.scene.primitives.removeAll();
       //清楚计时器
       window.clearInterval(this.timeInterval)
       this.$store.state.map.arrivalIndex = 0;
-      this.Viewer.camera.zoomIn(0.005)
+      window.Viewer.camera.zoomIn(0.005)
     },
     praseData(data) {
       let sort = _.groupBy(_.sortBy(data, (o) => {
@@ -113,7 +113,7 @@ export default {
           instanceArray.push(this.createPolygonGeometryInstance(id, color, degreesArry))
         }
       })
-      this.addPrimitivesToScene(this.Viewer, instanceArray)
+      this.addPrimitivesToScene(window.Viewer, instanceArray)
     },
 
     addPrimitivesToScene(viewer, instanceArray) {
@@ -142,7 +142,7 @@ export default {
       });
     },
     flyTo() {
-      this.Viewer.camera.flyTo({
+      window.Viewer.camera.flyTo({
         //目前为大通湖东分洪区
         destination: new Cesium.Cartesian3(
           -2160719.0887458995,
@@ -165,13 +165,13 @@ export default {
             let cords = vv[0].reduce((pre, cur) => {
               return pre.concat(cur);
             }, []);
-            this.addPolygonEntitys(this.Viewer, cords, color);
+            this.addPolygonEntitys(window.Viewer, cords, color);
           })
         } else {
           let cords = v.geometry.coordinates[0].reduce((pre, cur) => {
             return pre.concat(cur);
           }, []);
-          this.addPolygonEntitys(this.Viewer, cords, color);
+          this.addPolygonEntitys(window.Viewer, cords, color);
         }
       })
 

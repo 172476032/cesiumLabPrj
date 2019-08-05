@@ -22,6 +22,7 @@
 <script>
 import Cesium from "cesium/Cesium";
 import bus from "@/script/bus.js";
+let Viewer;
 
 export default {
   name: "map_zoom",
@@ -29,7 +30,6 @@ export default {
     return {
       zoomInHover: false,
       zoomOutHover: false,
-      viewer: null,
       amount: 800000
     };
   },
@@ -50,19 +50,19 @@ export default {
         console.log("我是三维放大缩小控件，我需要window.Viewer对象");
         if (window.Viewer instanceof Cesium.Viewer) {
           window.clearInterval(interval);
-          this.viewer = window.Viewer;
+          Viewer = window.Viewer;
         }
       }, 1000);
     },
     zoomInHandler() {
-      if (this.viewer instanceof Cesium.Viewer) {
-        this.viewer.camera.zoomIn(this.amount);
+      if (Viewer instanceof Cesium.Viewer) {
+        Viewer.camera.zoomIn(this.amount);
       }
     },
 
     zoomOutHandler() {
-      if (this.viewer instanceof Cesium.Viewer) {
-        this.viewer.camera.zoomOut(this.amount);
+      if (Viewer instanceof Cesium.Viewer) {
+        Viewer.camera.zoomOut(this.amount);
       }
     }
   }
