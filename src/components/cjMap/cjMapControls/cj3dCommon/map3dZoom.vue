@@ -1,26 +1,27 @@
 <template>
   <div class="three-zoom-container">
-    <div class="zoom-div"
-         title="放大一级"
-         @mouseover="zoomInHover = !zoomInHover"
-         @mouseout="zoomInHover = !zoomInHover"
-         @click.prevent="zoomInHandler">
-      <div class="in"
-           :style="`background-position: ${zoomInHover?-60:0}px 0;`"></div>
+    <div
+      class="zoom-div"
+      title="放大一级"
+      @mouseover="zoomInHover = !zoomInHover"
+      @mouseout="zoomInHover = !zoomInHover"
+      @click.prevent="zoomInHandler"
+    >
+      <div class="in" :style="`background-position: ${zoomInHover?-60:0}px 0;`"></div>
     </div>
-    <div class="zoom-div"
-         title="缩小一级"
-         @mouseover="zoomOutHover = !zoomOutHover"
-         @mouseout="zoomOutHover = !zoomOutHover"
-         @click.prevent="zoomOutHandler">
-      <div class="out"
-           :style="`background-position: ${zoomOutHover?-30:-10}px 0;`"></div>
+    <div
+      class="zoom-div"
+      title="缩小一级"
+      @mouseover="zoomOutHover = !zoomOutHover"
+      @mouseout="zoomOutHover = !zoomOutHover"
+      @click.prevent="zoomOutHandler"
+    >
+      <div class="out" :style="`background-position: ${zoomOutHover?-30:-10}px 0;`"></div>
     </div>
   </div>
 </template>
 
 <script>
-import Cesium from "cesium/Cesium";
 import bus from "@/script/bus.js";
 let Viewer;
 

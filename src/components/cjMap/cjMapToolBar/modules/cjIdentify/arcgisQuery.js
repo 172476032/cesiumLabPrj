@@ -10,7 +10,6 @@ import Feature from 'ol/Feature';
 import VectorLayer from 'ol/layer/Vector';
 import Select from 'ol/interaction/Select';
 import EsriJSON from 'ol/format/EsriJSON';
-import Cesium from "cesium/Cesium";
 
 //图层资源
 import VectorSource from 'ol/source/Vector';

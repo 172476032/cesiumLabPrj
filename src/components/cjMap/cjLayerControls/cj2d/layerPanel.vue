@@ -12,20 +12,16 @@
         <span class="searchSpan" title="快速查找图层" @click.stop="searchBtnClick">
             <Icon type="search" size="22" color="gray"></Icon>
   </span>-->
-  <layer-tree :baseDataList="baseDataList"
-              :root="true"
-              :checkClick="checkClick"></layer-tree>
+  <layer-tree :baseDataList="baseDataList" :root="true" :checkClick="checkClick"></layer-tree>
   <!-- </div> -->
 </template>
 
 <script>
 import layerTree from "./layerTree.vue";
 import _ from "lodash";
-import Cesium from "cesium/Cesium";
-let nodeSate = null;
 
 export default {
-  name: "layerPanel",
+  name: "layerPanel2d",
   components: {
     layerTree
   },

@@ -12,9 +12,7 @@
         <span class="searchSpan" title="快速查找图层" @click.stop="searchBtnClick">
             <Icon type="search" size="22" color="gray"></Icon>
   </span>-->
-  <layer-tree :baseDataList="baseDataList"
-              :root="true"
-              :checkClick="checkClick"></layer-tree>
+  <layer-tree :baseDataList="baseDataList" :root="true" :checkClick="checkClick"></layer-tree>
   <!-- </div> -->
 </template>
 
@@ -24,11 +22,8 @@ import _ from "lodash";
 import axios from "axios";
 import { transform } from "ol/proj";
 
-import Cesium from "cesium/Cesium";
-let nodeSate = null;
-
 export default {
-  name: "layerPanel",
+  name: "layerPanel3d",
   components: {
     layerTree
   },
@@ -247,7 +242,7 @@ export default {
         let dataSourceLayer = window.Viewer.dataSources.get(
           model.dataSourceIndex
         );
-        dataSourceLayer.show = model.visible;
+        dataSourceLayer.show = !dataSourceLayer.show;
         console.log("获取datasource图层成功");
         window.Viewer.zoomTo(dataSourceLayer);
       } else {
@@ -269,10 +264,7 @@ export default {
     createDataSourceLayer(callback, viewer, url, imgSrc, visible) {
       // 1、创建datasource，并把datasource通过view.dataSources.add(datasource)添加到view,通过设置设置show属性来控制隐藏或消失
       let dataSource = new Cesium.CustomDataSource();
-      // 2、创建entityCollection集合，也可通过entityCollection的show属性来控制显示隐藏
-      // entityCollection = new Cesium.EntityCollection(dataSource);
       dataSource.show = visible;
-      // 3、向entityCollection集合内添加entity
       axios.get(url).then(data => {
         console.log("数据请求完成", new Date(), data);
         if (data.data && data.data.features && data.data.features.length > 0) {
@@ -284,6 +276,7 @@ export default {
                 "EPSG:3857",
                 "EPSG:4326"
               );
+              // 2、数据源可存储entityCollection对象，可通过datasource.entityCollection添加实体。话外题：cesium添加数据的2种方式分别为primitive和datasource
               dataSource.entities.add(
                 this.addBillBoard(lonlat, imgEl, v.attributes.MC, 12, 1)
               );

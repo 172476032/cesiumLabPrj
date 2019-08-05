@@ -1,18 +1,11 @@
 <template>
   <div class="threed-container">
-    <div v-if="show"
-         class="threed-div"
-         title="切换为二维"
-         @click.prevent="toggle2d3d">3D</div>
-    <div v-else
-         class="threed-div"
-         title="切换为三维"
-         @click.prevent="toggle2d3d">2D</div>
+    <div v-if="show" class="threed-div" title="切换为二维" @click.prevent="toggle2d3d">3D</div>
+    <div v-else class="threed-div" title="切换为三维" @click.prevent="toggle2d3d">2D</div>
   </div>
 </template>
 
 <script>
-import Cesium from "cesium/Cesium";
 import bus from "@/script/bus.js";
 
 export default {

@@ -1,26 +1,30 @@
 <template>
   <div class="three-rotate-container">
-    <div class="rotate-txt"
-         :style="`transform: rotate(${rotateDegree}deg)`">
+    <div class="rotate-txt" :style="`transform: rotate(${rotateDegree}deg)`">
       <span class="span1">北</span>
     </div>
     <div class="rotate-div">
-      <button :title="`逆时针旋转${onceRotateDegree}°`"
-              class="rotate-clockwise"
-              @click.prevent="rotateClockwise"></button>
-      <button title="恢复正北方向"
-              class="rotate-north"
-              :style="`transform: rotate(${rotateDegree}deg)`"
-              @click.prevent="rotateNorth"></button>
-      <button :title="`顺时针旋转${onceRotateDegree}°`"
-              class="rotate-inverse-clockwise"
-              @click.prevent="rotateInverseClockwise"></button>
+      <button
+        :title="`逆时针旋转${onceRotateDegree}°`"
+        class="rotate-clockwise"
+        @click.prevent="rotateClockwise"
+      ></button>
+      <button
+        title="恢复正北方向"
+        class="rotate-north"
+        :style="`transform: rotate(${rotateDegree}deg)`"
+        @click.prevent="rotateNorth"
+      ></button>
+      <button
+        :title="`顺时针旋转${onceRotateDegree}°`"
+        class="rotate-inverse-clockwise"
+        @click.prevent="rotateInverseClockwise"
+      ></button>
     </div>
   </div>
 </template>
 
 <script>
-import Cesium from "cesium/Cesium";
 import bus from "@/script/bus.js";
 import _ from "lodash";
 

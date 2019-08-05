@@ -2,8 +2,7 @@
   <div class="scene-3d-map-wrap">
     <div id="sceneMap"></div>
     <!-- 洪水推演 -->
-    <Dropdown class="flood-dropdown"
-              @on-click="toggle">
+    <Dropdown class="flood-dropdown" @on-click="toggle">
       <Button type="primary">
         洪水推演
         <Icon type="ios-arrow-down"></Icon>
@@ -13,18 +12,17 @@
         <DropdownItem name="closeFloodPanel">关闭</DropdownItem>
       </DropdownMenu>
     </Dropdown>
-    <flooding3d-deduction v-if="floodShow"
-                          @beginFlooding="beginFlooding"
-                          @pauseFlooding="pauseFlooding"
-                          @replayFlooding="replayFlooding">
-    </flooding3d-deduction>
+    <flooding3d-deduction
+      v-if="floodShow"
+      @beginFlooding="beginFlooding"
+      @pauseFlooding="pauseFlooding"
+      @replayFlooding="replayFlooding"
+    ></flooding3d-deduction>
   </div>
 </template>
 
 <script>
 import flooding3dDeduction from "@/components/cjMap/floodingDeduction/flooding3d/index.vue";
-import Cesium from "cesium/Cesium";
-import "cesium/Widgets/widgets.css";
 import CesiumNavigation from "cesium-navigation-es6";
 import {
   screenToLonlatCoords,
@@ -42,23 +40,19 @@ import sky_mz from "../../../assets/cesium_theme/skyBox/sky_mz.jpg";
 import sky_py from "../../../assets/cesium_theme/skyBox/sky_py.jpg";
 import sky_px from "../../../assets/cesium_theme/skyBox/sky_px.jpg";
 import sky_pz from "../../../assets/cesium_theme/skyBox/sky_pz.jpg";
-const img = "/static/map/pointicon.png";
+const img = "/static/map/pointicon.png",
+  delayInitTime = 3000,
+  options = {
+    enableCompass: false,
+    enableZoomControls: false,
+    enableCompassOuterRing: false
+  };
 
 export default {
   name: "scenemap",
   data() {
     return {
-      options: {
-        enableCompass: false,
-        enableZoomControls: false,
-        enableCompassOuterRing: false
-      },
-      payLoad: null,
-      floodShow: false,
-      delayInitTime: 3000,
-      terrain30: "/cesiumlab/terrain/sxjj/tiff30",
-      terrainmosic: "/cesiumlab/terrain/sxjj/demmasioc",
-      wddTerrains: "/cesiumlab/terrain/wddTerrains"
+      floodShow: false
     };
   },
   mixins: [flooding],
@@ -143,7 +137,7 @@ export default {
         this.addTerrain(viewer);
         // this.addBillBoardLayer(viewer)
         // 添加导航
-        CesiumNavigation(window.Viewer, this.options);
+        CesiumNavigation(window.Viewer, options);
         //控件初始化
         bus.$emit("inintMap3dZoom");
         bus.$emit("initMap3dRotate");
@@ -151,7 +145,7 @@ export default {
         //注册clock事件
         // this.onClockTick(window.Viewer);
         this.aboveTerrain(window.Viewer);
-      }, this.delayInitTime);
+      }, delayInitTime);
     },
     onClockTick(viewer) {
       viewer.clock.onTick.addEventListener(() => {

@@ -1,6 +1,8 @@
 <template>
-  <div :style="`color:${adaptColor}`"
-       class="three-loc-info-container three-loc-info-container-left1">
+  <div
+    :style="`color:${adaptColor}`"
+    class="three-loc-info-container three-loc-info-container-left1"
+  >
     <div :style="`color:${adaptColor}`">经度：{{langitude}}</div>
     <div :style="`color:${adaptColor}`">纬度：{{latitude}}</div>
     <div :style="`color:${adaptColor}`">视角高度：{{height}}</div>
@@ -8,7 +10,6 @@
 </template>
 
 <script>
-import Cesium from "cesium/Cesium";
 import bus from "@/script/bus.js";
 import _ from "lodash";
 import { setTimeout } from "timers";

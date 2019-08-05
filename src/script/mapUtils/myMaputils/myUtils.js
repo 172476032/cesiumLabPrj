@@ -1487,7 +1487,7 @@
        console.log("我在loading实体属性", viewer.selectedEntity);
        if (viewer.selectedEntity.id != "Loading...") {
          window.clearInterval(interval);
-         if (viewer.selectedEntity.id != "None") {
+         if (viewer.selectedEntity.id != "None" && typeof viewer.selectedEntity.description != "undefined") {
            let props = praseTableString(
              viewer.selectedEntity.description.getValue()
            );
