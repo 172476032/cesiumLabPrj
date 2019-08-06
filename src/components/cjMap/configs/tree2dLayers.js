@@ -219,10 +219,10 @@ export default [{
       geoType: 'point',
       layerName: 'adresslayer',
       visible: true,
-      layerUrl: '/map172166/rest/services/XZHQ/JMD/MapServer/tile/{z}/{y}/{x}',
+      layerUrl: '/map166/rest/services/XZHQ/JMD/MapServer/tile/{z}/{y}/{x}',
       queryConfig: {
         name: '地名',
-        url: '/map172166/rest/services/XZHQ/JMD/MapServer/identify',
+        url: '/map166/rest/services/XZHQ/JMD/MapServer/identify',
         canquery: false
       }
     },
@@ -235,10 +235,10 @@ export default [{
       geoType: 'polygon',
       layerName: 'heduannew',
       visible: true,
-      layerUrl: '/map172166/rest/services/demos/heduan3857/MapServer/tile/{z}/{y}/{x}',
+      layerUrl: '/map166/rest/services/demos/heduan3857/MapServer/tile/{z}/{y}/{x}',
       queryConfig: {
         name: '河段',
-        url: '/map172166/rest/services/demos/heduan3857/MapServer/identify',
+        url: '/map166/rest/services/demos/heduan3857/MapServer/identify',
         canquery: true
       }
     },

@@ -9,7 +9,7 @@
     "layerConfigs": [{
       "bottomLeft": [90.54439720842934, 24.46972078995854],
       "topRight": [122.06895907417073, 35.900247044602395],
-      "url": "/map172166/rest/services/basemap/长江中下游高清影像/MapServer/tile/{z}/{y}/{x}",
+      "url": "/map166/rest/services/basemap/长江中下游高清影像/MapServer/tile/{z}/{y}/{x}",
       "layer": "长江中下游高清影像"
     }]
   },

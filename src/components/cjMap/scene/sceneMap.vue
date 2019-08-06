@@ -145,6 +145,9 @@ export default {
         //注册clock事件
         // this.onClockTick(window.Viewer);
         this.aboveTerrain(window.Viewer);
+        window.Viewer.dataSources.datadataSourceAdded.addEventListener((eevt)=>{
+          console.log("新的资源添加完成",eevt)
+        })
       }, delayInitTime);
     },
     onClockTick(viewer) {
@@ -385,8 +388,8 @@ export default {
           console.log("props: ", props);
           bus.$emit("on-search-list-click-show-modal", {
             mapServerName: "",
-            featureName: viewer.selectedEntity.id,
-            attributes: props
+            featureName: props.title,
+            attributes: props.attrs
           });
         }, viewer);
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);

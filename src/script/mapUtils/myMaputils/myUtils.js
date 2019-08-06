@@ -1481,17 +1481,20 @@
 
  //--getSelectedEntityProps--start-----自己封装的获取cesium的infoBox的属性信息，通过回调函数返回属性对象{}
  const getSelectedEntityProps = (callback, viewer) => {
-   if (viewer.selectedEntity instanceof Cesium.Entity) {
-     console.log("选中的实体", viewer.selectedEntity);
+   let selectedEntity = viewer.selectedEntity;
+   if (selectedEntity instanceof Cesium.Entity) {
+     console.log("选中的实体", selectedEntity);
      let interval = setInterval(() => {
-       console.log("我在loading实体属性", viewer.selectedEntity);
-       if (viewer.selectedEntity.id != "Loading...") {
+       console.log("我在loading实体属性", selectedEntity);
+       if (selectedEntity.id != "Loading...") {
          window.clearInterval(interval);
-         if (viewer.selectedEntity.id != "None" && typeof viewer.selectedEntity.description != "undefined") {
+         if (selectedEntity.id != "None" && typeof selectedEntity.description != "undefined") {
            let props = praseTableString(
-             viewer.selectedEntity.description.getValue()
+             selectedEntity.description.getValue()
            );
-           callback(props)
+           callback({title:selectedEntity.id,attrs:props})
+         }else if(typeof selectedEntity.properties !="undefined"){
+          callback({title:selectedEntity.label.text.getValue(),attrs:selectedEntity.properties.getValue()})
          }
        }
      }, 1000);

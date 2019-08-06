@@ -3,7 +3,7 @@
     "layer_name": "长江流域高清影像",
     "real_name": "zxygqyx",
     "visible": false,
-    "layer_url": "/map172166/rest/services/basemap/长江中下游高清影像/MapServer"
+    "layer_url": "/map166/rest/services/basemap/长江中下游高清影像/MapServer"
   }, {
     "type": "arcgis-wmts",
     "layer_name": "长江流域晕眩",

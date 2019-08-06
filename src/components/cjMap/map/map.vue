@@ -1,22 +1,22 @@
 <!--  -->
 <template>
   <div class="two-dimensional">
-    <div id="cjmap" ref="cjmap"></div>
+    <div id="cjmap"
+         ref="cjmap"></div>
     <cj-scatter-Overlay :map="map"></cj-scatter-Overlay>
     <cj-marker-tip ref="cjMarkerTip"></cj-marker-tip>
     <!-- 点击图表查看信息的弹出框 -->
-    <click-info-modal
-      :infoShow="infoShow"
-      :mapServerName="mapServerName"
-      :tileShow="false"
-      :featureName="featureName"
-      :attributes="attributes"
-      :sttp="String(sttp)"
-      :stcd="String(stcd)"
-      @resetInfoShow="resetInfoShow"
-    ></click-info-modal>
+    <click-info-modal :infoShow="infoShow"
+                      :mapServerName="mapServerName"
+                      :tileShow="false"
+                      :featureName="featureName"
+                      :attributes="attributes"
+                      :sttp="String(sttp)"
+                      :stcd="String(stcd)"
+                      @resetInfoShow="resetInfoShow"></click-info-modal>
     <!-- 洪水推演 -->
-    <Dropdown class="flood2d-dropdown" @on-click="toggle">
+    <Dropdown class="flood2d-dropdown"
+              @on-click="toggle">
       <Button type="primary">
         洪水推演
         <Icon type="ios-arrow-down"></Icon>
@@ -26,12 +26,10 @@
         <DropdownItem name="closeFloodPanel">关闭</DropdownItem>
       </DropdownMenu>
     </Dropdown>
-    <flooding2d-deduction
-      v-if="floodShow"
-      @beginFlooding="beginFlooding"
-      @pauseFlooding="pauseFlooding"
-      @replayFlooding="replayFlooding"
-    ></flooding2d-deduction>
+    <flooding2d-deduction v-if="floodShow"
+                          @beginFlooding="beginFlooding"
+                          @pauseFlooding="pauseFlooding"
+                          @replayFlooding="replayFlooding"></flooding2d-deduction>
   </div>
 </template>
 
@@ -149,13 +147,13 @@ export default {
           transform(e.target.getView().getCenter(), "EPSG:3857", "EPSG:4326")
         );
       });
-      // this.addBaseLayers(baseLayers);
-      // this.addThemeLayers(treeLayers);
-      // this.$store.state.map.treeConfigs = this.treeLayers;
-      //  console.log("所有的矢量瓦片图层", this.vectorTileLayers);
-      // this.$refs.cjMarkerTip.$emit("on-init", this.map);
-      // //初始化宏数交互
-      // this.locationToMarker();
+      this.addBaseLayers(baseLayers);
+      this.addThemeLayers(treeLayers);
+      this.$store.state.map.treeConfigs = this.treeLayers;
+      console.log("所有的矢量瓦片图层", this.vectorTileLayers);
+      this.$refs.cjMarkerTip.$emit("on-init", this.map);
+      //初始化宏数交互
+      this.locationToMarker();
     },
     addBaseLayers(data) {
       //底图加载

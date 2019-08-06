@@ -119,10 +119,10 @@ module.exports = {
         changeOrigin: true,
         cookiePathRewrite: "/"
       },
-      '/map172166': {
+      '/map166': {
         target: 'http://10.6.172.166:6080',
         pathRewrite: {
-          '^/map172166': '/arcgis'
+          '^/map166': '/arcgis'
         },
         changeOrigin: true,
         cookiePathRewrite: "/"

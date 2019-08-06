@@ -46,10 +46,10 @@ export default [{
       "geoType": "point",
       "layerName": "bangzhan",
       "visible": false,
-      "layerUrl": "/map172166/rest/services/XZHQ/BZ/MapServer/tile/{z}/{y}/{x}",
+      "layerUrl": "/map166/rest/services/XZHQ/BZ/MapServer/tile/{z}/{y}/{x}",
       "queryConfig": {
         "name": "泵站",
-        "url": "/map172166/rest/services/XZHQ/BZ/MapServer/identify",
+        "url": "/map166/rest/services/XZHQ/BZ/MapServer/identify",
         "canquery": false
       }
     },
@@ -62,12 +62,26 @@ export default [{
       "geoType": "polygon",
       "layerName": "heduannew",
       "visible": false,
-      "layerUrl": "/map172166/rest/services/demos/heduan3857/MapServer/tile/{z}/{y}/{x}",
+      "layerUrl": "/map166/rest/services/demos/heduan3857/MapServer/tile/{z}/{y}/{x}",
       "queryConfig": {
         "name": "河段",
-        "url": "/map172166/rest/services/demos/heduan3857/MapServer/identify",
+        "url": "/map166/rest/services/demos/heduan3857/MapServer/identify",
         "canquery": false
       }
+    }, {
+      "id": "13343",
+      "name": "水闸",
+      "isRoot": false,
+      "icon": shuizha,
+      "type": "DATASOURCE",
+      "geoType": "point",
+      "layerName": "shuizhadatasource",
+      "visible": false,
+      "layerIcon": shuizha,
+      "layerIconColor": "#FC4F44",
+            "labelField":"MC",
+      "layerUrl": "/map178/rest/services/cjcenter/水闸/MapServer/2/query/2/query?where=1=1&outFields=*&f=pjson",
+
     }, {
       "id": "13443",
       "name": "泵站",
@@ -78,7 +92,9 @@ export default [{
       "layerName": "bangzhandatasource",
       "visible": false,
       "layerIcon": bengzhan,
-      "layerUrl": "/map229/rest/services/泵站3/MapServer/0/query?where=1=1&outFields=*&f=pjson",
+      "layerIconColor": "#2DA7F7",
+      "labelField":"MC",
+      "layerUrl": "/map166/rest/services/XZHQ/BZ/MapServer/2/query?where=1=1&outFields=*&f=pjson",
 
     }, {
       "id": "103201",
@@ -89,10 +105,10 @@ export default [{
       "geoType": "point",
       "layerName": "adresslayer",
       "visible": false,
-      "layerUrl": "/map172166/rest/services/XZHQ/JMD/MapServer/tile/{z}/{y}/{x}",
+      "layerUrl": "/map166/rest/services/XZHQ/JMD/MapServer/tile/{z}/{y}/{x}",
       "queryConfig": {
         "name": "地名",
-        "url": "/map172166/rest/services/XZHQ/JMD/MapServer/identify",
+        "url": "/map166/rest/services/XZHQ/JMD/MapServer/identify",
         "canquery": false
       }
     }, {
@@ -104,10 +120,10 @@ export default [{
       "geoType": "polygon",
       "layerName": "newcjXZHQnew",
       "visible": false,
-      "layerUrl": "/map172166/rest/services/XZHQ/XZHQ/MapServer/tile/{z}/{y}/{x}",
+      "layerUrl": "/map166/rest/services/XZHQ/XZHQ/MapServer/tile/{z}/{y}/{x}",
       "queryConfig": {
         "name": "蓄滞洪区",
-        "url": "/map172166/rest/services/XZHQ/XZHQ/MapServer/identify",
+        "url": "/map166/rest/services/XZHQ/XZHQ/MapServer/identify",
         "canquery": false
       }
     }

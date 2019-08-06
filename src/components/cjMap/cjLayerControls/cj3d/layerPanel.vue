@@ -12,7 +12,9 @@
         <span class="searchSpan" title="快速查找图层" @click.stop="searchBtnClick">
             <Icon type="search" size="22" color="gray"></Icon>
   </span>-->
-  <layer-tree :baseDataList="baseDataList" :root="true" :checkClick="checkClick"></layer-tree>
+  <layer-tree :baseDataList="baseDataList"
+              :root="true"
+              :checkClick="checkClick"></layer-tree>
   <!-- </div> -->
 </template>
 
@@ -244,24 +246,111 @@ export default {
         );
         dataSourceLayer.show = !dataSourceLayer.show;
         console.log("获取datasource图层成功");
-        window.Viewer.zoomTo(dataSourceLayer);
-      } else {
+        if(dataSourceLayer.show){
+           this.flyTo();
+        }
+       } else {
         model.dataSourceIndex = this.$store.state.map.dataSourceIndex++;
         this.createDataSourceLayer(
           layer => {
-            console.log("实体添加完成", new Date());
-            window.Viewer.dataSources.add(layer);
-            window.Viewer.zoomTo(layer);
+            console.log("实体添加完成", new Date(),layer);
+            window.Viewer.dataSources.add(layer); 
+            layer.loadingEvent.addEventListener((evt)=>{
+                console.log("资源加载完成",evt)
+           })
+            this.flyTo();
           },
           window.Viewer,
           model.layerUrl,
+          model.labelField,
           model.layerIcon,
+          model.layerIconColor,
           model.visible
         );
       }
+    window.Viewer.camera.zoomIn(0.005)
+    },  
+    // 添加数据资源图层，该资源图层是以entityCollection进行管理的,所有该资源图层下面的entity具有统一的id，方便切换显示隐藏的管理start
+    createDataSourceLayer(callback, viewer, url,labelField, imgSrc, iconColor, visible) {
+      // 1、创建datasource，并把datasource通过view.dataSources.add(datasource)添加到view,通过设置设置show属性来控制隐藏或消失
+      let dataSource = new Cesium.CustomDataSource();      
+      dataSource.show = visible;
+      axios.get(url).then(data => {
+        console.log("数据请求完成", new Date(), data);
+        if (data.data && data.data.features && data.data.features.length > 0) {
+          data.data.features.forEach(v => {
+            let lonlat = transform(
+              [v.geometry.x, v.geometry.y],
+              "EPSG:3857",
+              "EPSG:4326"
+            );
+            // 2、数据源可存储entityCollection对象，可通过datasource.entityCollection添加实体。话外题：cesium添加数据的2种方式分别为primitive和datasource
+            dataSource.entities.add(
+              this.addBillBoard(lonlat, imgSrc, iconColor, v.attributes[labelField], 15,v.attributes)
+            );
+          });
+          callback(dataSource);
+        } else {
+          this.$Message("无图层数据");
+        }
+      });
+    },
+    /**
+     * viewer
+     * lonlat:[112,32]
+     * imgSrc:"../../../../static/map/layertree/水库.png"
+     * tetx:"asas"
+     */
+    addBillBoard(lonlat, imgSrc, iconColor, text, fontsize,attributes) {
+      return {
+        position: Cesium.Cartesian3.fromDegrees(lonlat[0], lonlat[1]),
+        properties:attributes,
+        label: {
+          text: text,
+          font: fontsize * 3 + "px sans-serif",
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          scale: 0.33,
+          fillColor: Cesium.Color.fromCssColorString(iconColor),
+          outlineColor: Cesium.Color.WHITE,
+          outlineWidth: 1,
+          pixelOffset: new Cesium.Cartesian2(
+            (text.length * 15) / 2 + fontsize / 2,
+            -fontsize * 1.5
+          )
+        },
+        billboard: {
+          image: imgSrc, // default: undefined
+          show: true, // default
+          // pixelOffset: new Cesium.Cartesian2(0, -50), // default: (0, 0)
+          eyeOffset: new Cesium.Cartesian3(0.0, 0.0, 0.0), // default
+          horizontalOrigin: Cesium.HorizontalOrigin.LEFT, // default
+          verticalOrigin: Cesium.VerticalOrigin.LEFT, // default: CENTER
+          scale: 0.5, // default: 1.0
+          // color: Cesium.Color.LIME, // default: WHITE
+          // rotation: Cesium.Math.PI_OVER_FOUR, // default: 0.0
+          alignedAxis: Cesium.Cartesian3.ZERO // default
+          // width: 100, // default: undefined
+          // height: 25 // default: undefined
+        }
+      };
+    },
+    flyTo() {
+      window.Viewer.camera.flyTo({
+        //目前为大通湖东分洪区
+        destination: new Cesium.Cartesian3(
+          -2160719.0887458995,
+          5164693.134828525,
+          3086652.583725703
+        ),
+        orientation: {
+          heading: 6.265965412948017,
+          pitch: -0.7250628417712202,
+          roll: 0.00007361600306232674
+        }
+      });
     },
     // 添加数据资源图层，该资源图层是以entityCollection进行管理的,所有该资源图层下面的entity具有统一的id，方便切换显示隐藏的管理start
-    createDataSourceLayer(callback, viewer, url, imgSrc, visible) {
+    createDataSourceLayer1(callback, viewer, url, imgSrc, visible) {
       // 1、创建datasource，并把datasource通过view.dataSources.add(datasource)添加到view,通过设置设置show属性来控制隐藏或消失
       let dataSource = new Cesium.CustomDataSource();
       dataSource.show = visible;
@@ -278,7 +367,7 @@ export default {
               );
               // 2、数据源可存储entityCollection对象，可通过datasource.entityCollection添加实体。话外题：cesium添加数据的2种方式分别为primitive和datasource
               dataSource.entities.add(
-                this.addBillBoard(lonlat, imgEl, v.attributes.MC, 12, 1)
+                this.addBillBoard(lonlat, imgEl, v.attributes.MC, 15, 0.5)
               );
             });
             callback(dataSource);
@@ -289,13 +378,7 @@ export default {
         }
       });
     },
-    /**
-     * viewer
-     * lonlat:[112,32]
-     * imgSrc:"../../../../static/map/layertree/水库.png"
-     * tetx:"asas"
-     */
-    addBillBoard(lonlat, imgEl, text, fontsize, scale) {
+    addBillBoard1(lonlat, imgEl, text, fontsize, scale) {
       return {
         position: Cesium.Cartesian3.fromDegrees(lonlat[0], lonlat[1]),
         billboard: {
@@ -322,12 +405,13 @@ export default {
       canvas.width = ctx.measureText(text).width + fontsize * 2; //根据文字内容获取宽度
       canvas.height = fontsize * 2; // fontsize * 1.5
       ctx.drawImage(imgEl, fontsize / 2, fontsize / 2, fontsize, fontsize);
-      ctx.fillStyle = "red";
+      ctx.fillStyle = "yellow";
       ctx.font = fontsize + "px Calibri,sans-serif";
       ctx.shadowOffsetX = 1; //阴影往左边偏，横向位移量
       ctx.shadowOffsetY = 0; //阴影往左边偏，纵向位移量
       ctx.shadowColor = "#fff"; //阴影颜色
       ctx.shadowBlur = 1; //阴影的模糊范围
+      ctx.back;
       ctx.fillText(text, (fontsize * 7) / 4, (fontsize * 4) / 3);
       return canvas;
     }
