@@ -97,11 +97,7 @@ export default {
                 .get(layerName)
                 .setStyle(this.map.get(layerName).getStyle());
             }
-            //居中并设置散射点
-            this.$store.commit("set_sctterAnimationPoint", {
-              coordinate: coords,
-              color: "red"
-            });
+            // 设置散射点           
             map.getView().animate({
               center: coords
             });

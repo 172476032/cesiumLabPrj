@@ -22,36 +22,33 @@ export default [{
   "isRoot": true,
   "icon": def,
   "children": [{
-      "id": "10142",
+      "id": "13343",
       "name": "水闸",
       "isRoot": false,
       "icon": shuizha,
-      "type": "WMTS",
+      "type": "DATASOURCE",
       "geoType": "point",
-      "layerName": "shuizha",
+      "layerName": "shuizhadatasource",
       "visible": false,
-      "layerUrl": "/map178/rest/services/cjcenter/水闸/MapServer/tile/{z}/{y}/{x}",
-      "queryConfig": {
-        "name": "水闸",
-        "url": "/map178/rest/services/cjcenter/水闸/MapServer/identify",
-        "canquery": false
-      }
-    },
-    {
-      "id": "10143",
+      "layerIcon": shuizha,
+      "layerIconColor": "#FF6960",
+      "labelField": "MC",
+      "layerUrl": "/map178/rest/services/cjcenter/水闸/MapServer/2/query/2/query?where=1=1&outFields=*&f=pjson",
+
+    }, {
+      "id": "13443",
       "name": "泵站",
       "isRoot": false,
       "icon": bengzhan,
-      "type": "WMTS",
+      "type": "DATASOURCE",
       "geoType": "point",
-      "layerName": "bangzhan",
+      "layerName": "bangzhandatasource",
       "visible": false,
-      "layerUrl": "/map166/rest/services/XZHQ/BZ/MapServer/tile/{z}/{y}/{x}",
-      "queryConfig": {
-        "name": "泵站",
-        "url": "/map166/rest/services/XZHQ/BZ/MapServer/identify",
-        "canquery": false
-      }
+      "layerIcon": bengzhan,
+      "layerIconColor": "#2DA7F7",
+      "labelField": "MC",
+      "layerUrl": "/map166/rest/services/XZHQ/BZ/MapServer/2/query?where=1=1&outFields=*&f=pjson",
+
     },
     {
       "id": "10001",
@@ -68,34 +65,6 @@ export default [{
         "url": "/map166/rest/services/demos/heduan3857/MapServer/identify",
         "canquery": false
       }
-    }, {
-      "id": "13343",
-      "name": "水闸",
-      "isRoot": false,
-      "icon": shuizha,
-      "type": "DATASOURCE",
-      "geoType": "point",
-      "layerName": "shuizhadatasource",
-      "visible": false,
-      "layerIcon": shuizha,
-      "layerIconColor": "#FC4F44",
-            "labelField":"MC",
-      "layerUrl": "/map178/rest/services/cjcenter/水闸/MapServer/2/query/2/query?where=1=1&outFields=*&f=pjson",
-
-    }, {
-      "id": "13443",
-      "name": "泵站",
-      "isRoot": false,
-      "icon": bengzhan,
-      "type": "DATASOURCE",
-      "geoType": "point",
-      "layerName": "bangzhandatasource",
-      "visible": false,
-      "layerIcon": bengzhan,
-      "layerIconColor": "#2DA7F7",
-      "labelField":"MC",
-      "layerUrl": "/map166/rest/services/XZHQ/BZ/MapServer/2/query?where=1=1&outFields=*&f=pjson",
-
     }, {
       "id": "103201",
       "name": "地名",
@@ -129,3 +98,36 @@ export default [{
     }
   ]
 }]
+
+
+// {
+//   "id": "10142",
+//   "name": "水闸",
+//   "isRoot": false,
+//   "icon": shuizha,
+//   "type": "WMTS",
+//   "geoType": "point",
+//   "layerName": "shuizha",
+//   "visible": false,
+//   "layerUrl": "/map178/rest/services/cjcenter/水闸/MapServer/tile/{z}/{y}/{x}",
+//   "queryConfig": {
+//     "name": "水闸",
+//     "url": "/map178/rest/services/cjcenter/水闸/MapServer/identify",
+//     "canquery": false
+//   }
+// }, {
+//   "id": "10143",
+//   "name": "泵站",
+//   "isRoot": false,
+//   "icon": bengzhan,
+//   "type": "WMTS",
+//   "geoType": "point",
+//   "layerName": "bangzhan",
+//   "visible": false,
+//   "layerUrl": "/map166/rest/services/XZHQ/BZ/MapServer/tile/{z}/{y}/{x}",
+//   "queryConfig": {
+//     "name": "泵站",
+//     "url": "/map166/rest/services/XZHQ/BZ/MapServer/identify",
+//     "canquery": false
+//   }
+// },

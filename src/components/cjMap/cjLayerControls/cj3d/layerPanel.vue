@@ -1,9 +1,9 @@
 <template>
-  <!-- <div> -->
-  <!-- <Checkbox v-model="onlyVisible" style="margin: 9px 0 9px 20px;">
+  <div>
+    <!-- <Checkbox v-model="onlyVisible" style="margin: 9px 0 9px 20px;">
                                                                 <span style="margin:10px;">只显示可见图层</span>
   </Checkbox>-->
-  <!-- <span class="switchSpan" title="显示可见图层" @click.stop="switchLayers">
+    <!-- <span class="switchSpan" title="显示可见图层" @click.stop="switchLayers">
             <Icon type="eye" size="25" color="gray"></Icon>
         </span>
         <transition name="bounce" style="height:30px;margin-top:-5px;">
@@ -12,10 +12,13 @@
         <span class="searchSpan" title="快速查找图层" @click.stop="searchBtnClick">
             <Icon type="search" size="22" color="gray"></Icon>
   </span>-->
-  <layer-tree :baseDataList="baseDataList"
-              :root="true"
-              :checkClick="checkClick"></layer-tree>
-  <!-- </div> -->
+    <layer-tree :baseDataList="baseDataList"
+                :root="true"
+                :checkClick="checkClick"></layer-tree>
+    <Spin size="small"
+          fix
+          v-if="spinShow"></Spin>
+  </div>
 </template>
 
 <script>
@@ -30,7 +33,9 @@ export default {
     layerTree
   },
   data() {
-    return {};
+    return {
+      spinShow: false
+    };
   },
   computed: {
     baseDataList() {
@@ -244,20 +249,25 @@ export default {
         let dataSourceLayer = window.Viewer.dataSources.get(
           model.dataSourceIndex
         );
-        dataSourceLayer.show = !dataSourceLayer.show;
+        dataSourceLayer.show = model.visible;
         console.log("获取datasource图层成功");
-        if(dataSourceLayer.show){
-           this.flyTo();
+        if (dataSourceLayer.show) {
+          this.flyTo();
         }
-       } else {
+      } else {
+        this.spinShow = true;
         model.dataSourceIndex = this.$store.state.map.dataSourceIndex++;
         this.createDataSourceLayer(
           layer => {
-            console.log("实体添加完成", new Date(),layer);
-            window.Viewer.dataSources.add(layer); 
-            layer.loadingEvent.addEventListener((evt)=>{
-                console.log("资源加载完成",evt)
-           })
+            console.log("实体添加完成", new Date(), layer);
+            window.Viewer.dataSources.add(layer);
+            let interval = setInterval(() => {
+              console.log("监测loading");
+              if (!layer.isLoading) {
+                this.spinShow = false;
+                window.clearInterval(interval);
+              }
+            }, 1);
             this.flyTo();
           },
           window.Viewer,
@@ -268,13 +278,24 @@ export default {
           model.visible
         );
       }
-    window.Viewer.camera.zoomIn(0.005)
-    },  
+      window.Viewer.camera.zoomIn(0.005);
+    },
     // 添加数据资源图层，该资源图层是以entityCollection进行管理的,所有该资源图层下面的entity具有统一的id，方便切换显示隐藏的管理start
-    createDataSourceLayer(callback, viewer, url,labelField, imgSrc, iconColor, visible) {
+    createDataSourceLayer(
+      callback,
+      viewer,
+      url,
+      labelField,
+      imgSrc,
+      iconColor,
+      visible
+    ) {
       // 1、创建datasource，并把datasource通过view.dataSources.add(datasource)添加到view,通过设置设置show属性来控制隐藏或消失
-      let dataSource = new Cesium.CustomDataSource();      
+      let dataSource = new Cesium.CustomDataSource();
       dataSource.show = visible;
+      dataSource.loadingEvent.addEventListener(evt => {
+        console.log("资源加载完成", evt);
+      });
       axios.get(url).then(data => {
         console.log("数据请求完成", new Date(), data);
         if (data.data && data.data.features && data.data.features.length > 0) {
@@ -286,7 +307,14 @@ export default {
             );
             // 2、数据源可存储entityCollection对象，可通过datasource.entityCollection添加实体。话外题：cesium添加数据的2种方式分别为primitive和datasource
             dataSource.entities.add(
-              this.addBillBoard(lonlat, imgSrc, iconColor, v.attributes[labelField], 15,v.attributes)
+              this.addBillBoard(
+                lonlat,
+                imgSrc,
+                iconColor,
+                v.attributes[labelField],
+                15,
+                v.attributes
+              )
             );
           });
           callback(dataSource);
@@ -301,17 +329,17 @@ export default {
      * imgSrc:"../../../../static/map/layertree/水库.png"
      * tetx:"asas"
      */
-    addBillBoard(lonlat, imgSrc, iconColor, text, fontsize,attributes) {
+    addBillBoard(lonlat, imgSrc, iconColor, text, fontsize, attributes) {
       return {
         position: Cesium.Cartesian3.fromDegrees(lonlat[0], lonlat[1]),
-        properties:attributes,
+        properties: attributes,
         label: {
           text: text,
-          font: fontsize * 3 + "px sans-serif",
+          font: fontsize * 2 + "px sans-serif",
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          scale: 0.33,
+          scale: 0.5,
           fillColor: Cesium.Color.fromCssColorString(iconColor),
-          outlineColor: Cesium.Color.WHITE,
+          // outlineColor: Cesium.Color.WHITE,
           outlineWidth: 1,
           pixelOffset: new Cesium.Cartesian2(
             (text.length * 15) / 2 + fontsize / 2,
@@ -426,6 +454,9 @@ export default {
 
 .switchSpan i {
   margin: 6px;
+}
+.ivu-spin-fix {
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 .searchInput {

@@ -2,7 +2,8 @@
   <div class="scene-3d-map-wrap">
     <div id="sceneMap"></div>
     <!-- 洪水推演 -->
-    <Dropdown class="flood-dropdown" @on-click="toggle">
+    <Dropdown class="flood-dropdown"
+              @on-click="toggle">
       <Button type="primary">
         洪水推演
         <Icon type="ios-arrow-down"></Icon>
@@ -12,12 +13,10 @@
         <DropdownItem name="closeFloodPanel">关闭</DropdownItem>
       </DropdownMenu>
     </Dropdown>
-    <flooding3d-deduction
-      v-if="floodShow"
-      @beginFlooding="beginFlooding"
-      @pauseFlooding="pauseFlooding"
-      @replayFlooding="replayFlooding"
-    ></flooding3d-deduction>
+    <flooding3d-deduction v-if="floodShow"
+                          @beginFlooding="beginFlooding"
+                          @pauseFlooding="pauseFlooding"
+                          @replayFlooding="replayFlooding"></flooding3d-deduction>
   </div>
 </template>
 
@@ -145,9 +144,9 @@ export default {
         //注册clock事件
         // this.onClockTick(window.Viewer);
         this.aboveTerrain(window.Viewer);
-        window.Viewer.dataSources.datadataSourceAdded.addEventListener((eevt)=>{
-          console.log("新的资源添加完成",eevt)
-        })
+        window.Viewer.dataSources.dataSourceAdded.addEventListener(eevt => {
+          console.log("新的资源添加完成", eevt);
+        });
       }, delayInitTime);
     },
     onClockTick(viewer) {
