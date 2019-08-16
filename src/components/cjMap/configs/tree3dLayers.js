@@ -49,6 +49,36 @@ export default [{
       "labelField": "MC",
       "layerUrl": "/map166/rest/services/XZHQ/BZ/MapServer/2/query?where=1=1&outFields=*&f=pjson",
 
+    }, {
+      "id": "103201",
+      "name": "地名",
+      "isRoot": false,
+      "icon": def,
+      "type": "WMTS",
+      "geoType": "point",
+      "layerName": "adresslayer",
+      "visible": false,
+      "layerUrl": "/map166/rest/services/XZHQ/JMD/MapServer/tile/{z}/{y}/{x}",
+      "queryConfig": {
+        "name": "地名",
+        "url": "/map166/rest/services/XZHQ/JMD/MapServer/identify",
+        "canquery": false
+      }
+    }, {
+      "id": "103601",
+      "name": "水系",
+      "isRoot": false,
+      "icon": def,
+      "type": "WMTS",
+      "geoType": "line",
+      "layerName": "shuixi",
+      "visible": false,
+      "layerUrl": "/map166/rest/services/XZHQ/river/MapServer/tile/{z}/{y}/{x}",
+      "queryConfig": {
+        "name": "水系",
+        "url": "/map166/rest/services/XZHQ/river/MapServer/identify",
+        "canquery": false
+      }
     },
     {
       "id": "10001",
@@ -66,18 +96,33 @@ export default [{
         "canquery": false
       }
     }, {
-      "id": "103201",
-      "name": "地名",
+      "id": "103401",
+      "name": "水库",
       "isRoot": false,
       "icon": def,
       "type": "WMTS",
-      "geoType": "point",
-      "layerName": "adresslayer",
+      "geoType": "polygon",
+      "layerName": "reservior",
       "visible": false,
-      "layerUrl": "/map166/rest/services/XZHQ/JMD/MapServer/tile/{z}/{y}/{x}",
+      "layerUrl": "/map166/rest/services/XZHQ/reservior/MapServer/tile/{z}/{y}/{x}",
       "queryConfig": {
-        "name": "地名",
-        "url": "/map166/rest/services/XZHQ/JMD/MapServer/identify",
+        "name": "水库",
+        "url": "/map166/rest/services/XZHQ/reservior/MapServer/identify",
+        "canquery": false
+      }
+    }, {
+      "id": "103501",
+      "name": "湖泊",
+      "isRoot": false,
+      "icon": def,
+      "type": "WMTS",
+      "geoType": "polygon",
+      "layerName": "lake",
+      "visible": false,
+      "layerUrl": "/map166/rest/services/XZHQ/lake/MapServer/tile/{z}/{y}/{x}",
+      "queryConfig": {
+        "name": "湖泊",
+        "url": "/map166/rest/services/XZHQ/lake/MapServer/identify",
         "canquery": false
       }
     }, {

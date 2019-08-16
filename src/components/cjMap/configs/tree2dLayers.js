@@ -58,8 +58,6 @@ imgop.onload = () => {
   xzhqPatternOpacityStyle = ctxop.createPattern(imgop, 'repeat');
 };
 
-
-
 export default [{
   id: 1,
   name: '图层对象',
@@ -210,7 +208,8 @@ export default [{
           });
         }
       }
-    }, {
+    },
+    {
       id: '10134',
       name: '地名',
       isRoot: false,
@@ -224,6 +223,90 @@ export default [{
         name: '地名',
         url: '/map166/rest/services/XZHQ/JMD/MapServer/identify',
         canquery: false
+      }
+    },
+    {
+      id: '10126',
+      name: '水库',
+      isRoot: false,
+      icon: def,
+      type: 'VECTORTILE',
+      geoType: 'polygon',
+      layerName: 'newcbzshuiku3757',
+      visible: false,
+      layerUrl: '/geoserver166/gwc/service/tms/1.0.0/new:cbzshuiku3757@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
+      vectorConfig: {
+        zoom: 0,
+        labelField: 'NAME',
+        uuId: 'NAME', //唯一标识，判断鼠标点选和pointmove时获取的唯一属性，用于图层重新刷新时重置所有带着个属性要素的样式
+        maxZoomStyle: (text, zoom, feature, selection) => {
+          var selected = !!selection[feature.get('NAME')];
+          return new Style({
+            stroke: new Stroke({
+              color: selected ? 'yellow' : 'rgba(0,0,255,0)',
+              width: selected ? 1 : 0.5
+            }),
+            fill: new Fill({
+              color: 'rgba(0,0,255,1)'
+            }),
+            text: new Text({
+              text: text,
+              offsetY: -20,
+              offsetX: 20,
+              font: 'bold 13px sans-serif',
+              padding: [5, 8, 5, 8],
+              fill: new Fill({
+                color: 'blue'
+              }),
+              stroke: new Stroke({
+                color: '#ffff',
+                width: 0
+              })
+            })
+          });
+        }
+      }
+    },
+    {
+      id: '13146',
+      name: '湖泊',
+      isRoot: false,
+      icon: def,
+      type: 'VECTORTILE',
+      geoType: 'polygon',
+      layerName: 'newcbzhupo3757',
+      visible: false,
+      layerUrl: '/geoserver166/gwc/service/tms/1.0.0/new:cbzhupo3757@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
+      vectorConfig: {
+        zoom: 0,
+        labelField: 'NAME',
+        uuId: 'NAME', //唯一标识，判断鼠标点选和pointmove时获取的唯一属性，用于图层重新刷新时重置所有带着个属性要素的样式
+        maxZoomStyle: (text, zoom, feature, selection) => {
+          var selected = !!selection[feature.get('NAME')];
+          return new Style({
+            stroke: new Stroke({
+              color: selected ? 'yellow' : 'rgba(0,0,255,0)',
+              width: selected ? 1 : 0.5
+            }),
+            fill: new Fill({
+              color: 'rgba(0,0,255,1)'
+            }),
+            text: new Text({
+              text: text,
+              offsetY: -20,
+              offsetX: 20,
+              font: 'bold 13px sans-serif',
+              padding: [5, 8, 5, 8],
+              fill: new Fill({
+                color: 'blue'
+              }),
+              stroke: new Stroke({
+                color: '#ffff',
+                width: 0
+              })
+            })
+          });
+        }
       }
     },
     {
@@ -260,11 +343,11 @@ export default [{
           var selected = !!selection[feature.get('XZHQDM')];
           return new Style({
             stroke: new Stroke({
-              color: selected ? 'rgba(0,0,255,1)' : 'rgba(0,0,255,1)',
-              width: selected ? 2 : 1
+              color: selected ? 'yellow' : 'rgba(0,0,255,1)',
+              width: selected ? 1 : 0.5
             }),
             fill: new Fill({
-              color: selected ? xzhqPatternOpacityStyle : xzhqPatternFillStyle
+              color: xzhqPatternFillStyle //selected ? xzhqPatternOpacityStyle : xzhqPatternFillStyle
             }),
             text: new Text({
               text: text,
@@ -273,7 +356,7 @@ export default [{
               font: 'bold 13px sans-serif',
               padding: [5, 8, 5, 8],
               fill: new Fill({
-                color: "blue"
+                color: 'blue'
               }),
               stroke: new Stroke({
                 color: '#ffff',
