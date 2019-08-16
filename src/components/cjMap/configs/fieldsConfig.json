@@ -74,5 +74,15 @@
     "LYDM": "流域代码",
     "XZQDM": "行政区代码",
     "CODE": "标识代码"
+  },
+  "shuiku": {
+    "NAME": "名称",
+    "SMAREA": "面积（m²）",
+    "GRADE": "类型"
+  },
+  "hupo": {
+    "NAME": "名称",
+    "SMAREA": "面积（m²）",
+    "GRADE": "类型"
   }
 }

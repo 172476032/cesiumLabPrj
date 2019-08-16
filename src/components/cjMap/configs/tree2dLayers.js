@@ -308,6 +308,21 @@ export default [{
           });
         }
       }
+    }, {
+      id: '10194',
+      name: '水系',
+      isRoot: false,
+      icon: def,
+      type: 'WMTS',
+      geoType: 'line',
+      layerName: 'newriver',
+      visible: false,
+      layerUrl: '/map166/rest/services/XZHQ/river/MapServer/tile/{z}/{y}/{x}',
+      queryConfig: {
+        name: '水系',
+        url: '/map166/rest/services/XZHQ/river/MapServer/identify',
+        canquery: true
+      }
     },
     {
       id: '10104',
@@ -343,7 +358,7 @@ export default [{
           var selected = !!selection[feature.get('XZHQDM')];
           return new Style({
             stroke: new Stroke({
-              color: selected ? 'yellow' : 'rgba(0,0,255,1)',
+              color: selected ? 'red' : 'rgba(0,0,255,1)',
               width: selected ? 1 : 0.5
             }),
             fill: new Fill({

@@ -219,6 +219,10 @@ export default {
         sortAttr.CODE = attr.CODE;
         //key翻译中文
         sortAttr = changeKeys(sortAttr, fieldConfig.bengzhan);
+      } else if (mapServerName == '水库') {
+        sortAttr = changeKeys(attr, fieldConfig.shuiku);
+      } else if (mapServerName == '湖泊') {
+        sortAttr = changeKeys(attr, fieldConfig.hupo);
       } else {
         sortAttr = attr;
       }
