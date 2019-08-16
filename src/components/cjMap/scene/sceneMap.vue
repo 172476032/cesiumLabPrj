@@ -106,8 +106,9 @@ export default {
           format: "image/jpeg",
           tileMatrixSetID: "GoogleMapsCompatible",
           show: false
-        }) // 天地图影像
-        // terrainProvider: Cesium.createWorldTerrain() //建议不要加载全球地形
+        }), // 天地图影像
+        // terrainProvider: Cesium.createWorldTerrain() //建议不要加载全球地形,
+        terrainExaggeration: 2
       });
       window.Viewer = viewer;
       // 初始化视角动画

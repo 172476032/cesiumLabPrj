@@ -141,63 +141,63 @@ export default {
     sortGroupGridsLength: 0,
     sortGroupGrids3857Length: 0,
     floodingColorsHtml: {
-      1: "#A6FF00",
-      2: "#82F630",
-      3: "#52F13A",
-      4: "#1DEC40",
-      5: "#22DE31",
-      6: "#33CD32"
+      1: "#CDFF00",
+      2: "#99FE00",
+      3: "#01FF35",
+      4: "#06FF99",
+      5: "#0099FF",
+      6: "#0033FF"
     },
     floodingColors: { //由浅入深
       1: {
         name: "<0.5m  ",
-        color: "rgba(166,255,0,0.4)"
+        color: "rgba(205,255,0,0.4)"
       },
       2: {
         name: "0.5~1.0m",
-        color: "rgba(130,246,48,0.4)"
+        color: "rgba(153,254,0,0.4)"
       },
       3: {
         name: "1.0~1.5m",
-        color: "rgba(82,241,58,0.4)"
+        color: "rgba(1,255,53,0.4)"
       },
       4: {
         name: "1.5~2.0m",
-        color: "rgba(29,236,64,0.4)"
+        color: "rgba(6,255,153,0.4)"
       },
       5: {
         name: "2.5~5.0m",
-        color: "rgba(34,222,49,0.4)"
+        color: "rgba(0,153,255,0.4)"
       },
       6: {
         name: ">5.0m",
-        color: "rgba(51,205,50,0.4)"
+        color: "rgba(0,51,255,0.4)"
       }
     },
     floodingColors2d: { //由浅入深
       1: {
         name: "<0.5m  ",
-        color: "rgba(166,255,0,0.6)"
+        color: "rgba(205,255,0,0.4)"
       },
       2: {
         name: "0.5~1.0m",
-        color: "rgba(130,246,48,0.6)"
+        color: "rgba(153,254,0,0.6)"
       },
       3: {
         name: "1.0~1.5m",
-        color: "rgba(82,241,58,0.6)"
+        color: "rgba(1,255,53,0.6)"
       },
       4: {
         name: "1.5~2.0m",
-        color: "rgba(29,236,64,0.6)"
+        color: "rgba(6,255,153,0.6)"
       },
       5: {
         name: "2.5~5.0m",
-        color: "rgba(34,222,49,0.6)"
+        color: "rgba(0,153,255,0.6)"
       },
       6: {
         name: ">5.0m",
-        color: "rgba(51,205,50,0.6)"
+        color: "rgba(0,51,255,0.6)"
       }
     },
     hoverLayer: hoverLayer,
