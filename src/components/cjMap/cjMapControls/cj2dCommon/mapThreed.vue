@@ -1,7 +1,13 @@
 <template>
   <div class="threed-container">
-    <div v-if="show" class="threed-div" title="切换为二维" @click.prevent="toggle2d3d">3D</div>
-    <div v-else class="threed-div" title="切换为三维" @click.prevent="toggle2d3d">2D</div>
+    <div v-if="show"
+         class="threed-div"
+         title="切换为二维"
+         @click.prevent="toggle2d3d">3D</div>
+    <div v-else
+         class="threed-div"
+         title="切换为三维"
+         @click.prevent="toggle2d3d">2D</div>
   </div>
 </template>
 
@@ -42,7 +48,7 @@ export default {
 <style lang="scss">
 .threed-container {
   position: absolute;
-  bottom: 90px;
+  bottom: 10%;
   right: 35px;
   z-index: 1;
   .threed-div {

@@ -86,7 +86,7 @@ export default {
 
 .zoom-container {
   position: absolute;
-  bottom: 26px;
+  bottom: 2%;
   right: 35px;
   z-index: 1;
   transform: scale(0.8);

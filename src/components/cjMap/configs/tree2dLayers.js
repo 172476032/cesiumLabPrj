@@ -209,6 +209,74 @@ export default [{
         }
       }
     },
+     {
+        "id": "10103",
+        "name": "水文站",
+        "isRoot": false,
+        "icon": shuiwenzhan,
+        "type": "VECTORTILE",
+        "geoType": "point",
+        "layerName": "swzwgs",
+        "visible": false,
+        "declutter": true,
+        "layerUrl": "/geoserver166/gwc/service/tms/1.0.0/test:swzwgs@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        vectorConfig: {
+          zoom: 10,
+          labelField: "测站名",
+          minZoomStyle: (text, zoom) => {
+            return new Style({
+              image: new Icon({
+                src: shuiwenzhanno,
+                scale: 0.2
+              })
+            })
+          },
+          maxZoomStyle: (text) => {
+            return new Style({
+              image: new Icon({
+                src: shuiwenzhan,
+                scale: 0.5
+              }),
+              text: new Text({
+                text: text,
+                offsetY: -20,
+                offsetX: 20,
+                font: "13px sans-serif",
+                padding: [5, 8, 5, 8],
+                fill: new Fill({
+                  color: "red",
+                }),
+                stroke: new Stroke({
+                  color: "#ffff",
+                  width: 1
+                })
+              })
+            })
+          },
+          hoverStyle: (text) => {
+            return new Style({
+              image: new Icon({
+                src: shuiwenzhan,
+                scale: 0.6
+              }),
+              text: new Text({
+                text: text,
+                offsetY: -20,
+                offsetX: 20,
+                font: "bold 13px sans-serif",
+                padding: [5, 8, 5, 8],
+                fill: new Fill({
+                  color: "red",
+                }),
+                stroke: new Stroke({
+                  color: "#ffff",
+                  width: 0
+                })
+              })
+            });
+          }
+        }
+      },
     {
       id: '10134',
       name: '地名',

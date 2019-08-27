@@ -1,25 +1,20 @@
 <template>
   <div class="three-rotate-container">
-    <div class="rotate-txt" :style="`transform: rotate(${rotateDegree}deg)`">
+    <div class="rotate-txt"
+         :style="`transform: rotate(${rotateDegree}deg)`">
       <span class="span1">北</span>
     </div>
     <div class="rotate-div">
-      <button
-        :title="`逆时针旋转${onceRotateDegree}°`"
-        class="rotate-clockwise"
-        @click.prevent="rotateClockwise"
-      ></button>
-      <button
-        title="恢复正北方向"
-        class="rotate-north"
-        :style="`transform: rotate(${rotateDegree}deg)`"
-        @click.prevent="rotateNorth"
-      ></button>
-      <button
-        :title="`顺时针旋转${onceRotateDegree}°`"
-        class="rotate-inverse-clockwise"
-        @click.prevent="rotateInverseClockwise"
-      ></button>
+      <button :title="`逆时针旋转${onceRotateDegree}°`"
+              class="rotate-clockwise"
+              @click.prevent="rotateClockwise"></button>
+      <button title="恢复正北方向"
+              class="rotate-north"
+              :style="`transform: rotate(${rotateDegree}deg)`"
+              @click.prevent="rotateNorth"></button>
+      <button :title="`顺时针旋转${onceRotateDegree}°`"
+              class="rotate-inverse-clockwise"
+              @click.prevent="rotateInverseClockwise"></button>
     </div>
   </div>
 </template>
@@ -94,7 +89,7 @@ $rotatePic: "../../../../assets/img/map/rotate.png";
 
 .three-rotate-container {
   position: absolute;
-  bottom: 185px;
+  bottom: 22%;
   right: 75px;
   z-index: 1;
   font-size: 16px;
@@ -116,7 +111,7 @@ $rotatePic: "../../../../assets/img/map/rotate.png";
     width: 52px;
     height: 54px;
     font-size: 10px;
-
+    color: #ffff;
     span {
       position: absolute;
       top: -15px;

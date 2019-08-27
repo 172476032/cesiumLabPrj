@@ -1,22 +1,20 @@
 <template>
   <div class="three-zoom-container">
-    <div
-      class="zoom-div"
-      title="放大一级"
-      @mouseover="zoomInHover = !zoomInHover"
-      @mouseout="zoomInHover = !zoomInHover"
-      @click.prevent="zoomInHandler"
-    >
-      <div class="in" :style="`background-position: ${zoomInHover?-60:0}px 0;`"></div>
+    <div class="zoom-div"
+         title="放大一级"
+         @mouseover="zoomInHover = !zoomInHover"
+         @mouseout="zoomInHover = !zoomInHover"
+         @click.prevent="zoomInHandler">
+      <div class="in"
+           :style="`background-position: ${zoomInHover?-60:0}px 0;`"></div>
     </div>
-    <div
-      class="zoom-div"
-      title="缩小一级"
-      @mouseover="zoomOutHover = !zoomOutHover"
-      @mouseout="zoomOutHover = !zoomOutHover"
-      @click.prevent="zoomOutHandler"
-    >
-      <div class="out" :style="`background-position: ${zoomOutHover?-30:-10}px 0;`"></div>
+    <div class="zoom-div"
+         title="缩小一级"
+         @mouseover="zoomOutHover = !zoomOutHover"
+         @mouseout="zoomOutHover = !zoomOutHover"
+         @click.prevent="zoomOutHandler">
+      <div class="out"
+           :style="`background-position: ${zoomOutHover?-30:-10}px 0;`"></div>
     </div>
   </div>
 </template>
@@ -83,7 +81,7 @@ $zoomPic: "../../../../assets/img/map/zoom.png";
 
 .three-zoom-container {
   position: absolute;
-  bottom: 26px;
+  bottom: 2%;
   right: 35px;
   z-index: 1;
   transform: scale(0.8);

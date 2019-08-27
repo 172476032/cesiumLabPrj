@@ -25,6 +25,13 @@ module.exports = {
           '^/cjwsjysj': ''
         }
       },
+      //研发中心自己写的-水文站监测数据接口
+      '/yfzxmonitor': {
+        target: 'http://10.6.172.162:8080',
+        pathRewrite: {
+          '^/yfzxmonitor': ''
+        }
+      },
       //178雨量站接口
       '/api': {
         target: 'http://10.6.172.178:8086',
@@ -127,7 +134,6 @@ module.exports = {
         changeOrigin: true,
         cookiePathRewrite: "/"
       },
-
       '/model3d': {
         target: '10.6.172.177:10200',
         pathRewrite: {

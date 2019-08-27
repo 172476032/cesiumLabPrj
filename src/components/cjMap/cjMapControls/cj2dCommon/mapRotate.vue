@@ -107,7 +107,7 @@ $rotatePic: "../../../../assets/img/map/rotate.png";
 
 .rotate-container {
   position: absolute;
-  bottom: 185px;
+  bottom: 22%;
   right: 75px;
   z-index: 1;
   font-size: 16px;
@@ -129,7 +129,7 @@ $rotatePic: "../../../../assets/img/map/rotate.png";
     width: 52px;
     height: 54px;
     font-size: 10px;
-
+    color: #ffff;
     span {
       position: absolute;
       top: -15px;

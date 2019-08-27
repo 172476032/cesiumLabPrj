@@ -149,7 +149,6 @@ export default {
       });
       this.addBaseLayers(baseLayers);
       this.addThemeLayers(treeLayers);
-      this.$store.state.map.treeConfigs = this.treeLayers;
       console.log("所有的矢量瓦片图层", this.vectorTileLayers);
       this.$refs.cjMarkerTip.$emit("on-init", this.map);
       //初始化宏数交互
@@ -214,6 +213,7 @@ export default {
           this.addThemeLayers(v.children);
         }
       });
+      this.$store.state.map.treeConfigs = treeLayers;
     },
     addThemeLayers2(treeLayers) {
       //图层树加载 ，创建图层，直接遍历第三层
@@ -399,7 +399,7 @@ export default {
   .flood2d-dropdown {
     position: absolute;
     right: 18%;
-    top: 40px;
+    top: 60px;
   }
 }
 </style>

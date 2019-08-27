@@ -233,13 +233,14 @@ export default {
 
     //每个图层的基本信息和监测数据根据此来配置，需要类型sttp和编码stcd
     getSttpStcd(layerName, attributes) {
-      if (layerName == '水文站' || layerName == '设计院-水文站') {
+     console.log('layerName, attributes: ', layerName, attributes);
+      if (layerName == '水文站') {
         this.sttp = attributes['编码'];
         this.stcd = attributes['编号'];
-      } else if (layerName == '水库' || layerName == '设计院-水库') {
-        this.sttp = attributes['测站类'];
-        this.stcd = attributes['测站编'];
-      } else if (layerName == '雨量站' || layerName == '设计院-雨量站') {
+      } else if (layerName == '水库') {
+        this.sttp = attributes['测站类型'];
+        this.stcd = attributes['测站编号'];
+      } else if (layerName == '雨量站') {
         this.sttp = attributes.STTP;
         this.stcd = attributes.STCD;
       } else {

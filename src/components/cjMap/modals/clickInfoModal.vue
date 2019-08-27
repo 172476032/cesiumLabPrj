@@ -1,7 +1,7 @@
 <template>
   <Modal v-model="modalShow"
          ref="monitorModal"
-         :title="`${featureName}`"
+         :title="title"
          draggable
          footer-hide
          class="map-click-info-modal"
@@ -61,12 +61,14 @@
             <Col span="10">
             <span class="label">开始</span>
             <DatePicker size="small"
+                        type="datetime"
                         class="timeselect"
                         v-model="st"></DatePicker>
             </Col>
             <Col span="10">
             <span class="label">结束</span>
             <DatePicker size="small"
+                        type="datetime"
                         class="timeselect"
                         v-model="et"></DatePicker>
             </Col>
@@ -197,12 +199,12 @@ export default {
         },
         {
           title: "水位",
-          key: "z",
+          key: "zz",
           align: "center"
         },
         {
           title: "流量",
-          key: "q",
+          key: "qq",
           align: "center"
         }
       ],
@@ -263,6 +265,13 @@ export default {
     },
     clickFullPoint() {
       return this.$store.state.map.clickFullPoint;
+    },
+    title() {
+      if (this.mapServerName == "") {
+        return this.featureName;
+      } else {
+        return `${this.featureName}[${this.mapServerName}]`;
+      }
     }
   },
   methods: {
@@ -346,35 +355,44 @@ export default {
       this.reset();
       if (this.sttp && this.sttp != "") {
         let url;
+        console.log("测站类型", this.sttp);
         switch (this.sttp) {
-          case "ZQ": //河道水文站
-            url = `/cjwsjymonitor/Service1.svc/Public_get_river_r?user=PUBLIC&stcd=${this.stcd}&st=${this.stt}&et=${this.ett}`;
+          case "ZZ":
+          case "ZQ": //河道水文站  1954和1998年洪水数据走的是这个caseZZ和ZQ，查了水文站和监测数据excel数据后确定的
+            // url = `/cjwsjymonitor/Service1.svc/Public_get_river_r?user=PUBLIC&stcd=${this.stcd}&st=${this.stt}&et=${this.ett}`;
+            url = `/yfzxmonitor/cj-center-data/flood/queryFloodStation?startTime=${formatDate_YMDHMS(
+              this.st
+            )}&endTime=${formatDate_YMDHMS(this.et)}&stationId=${this.stcd}`;
             this.tableCol = this.hdtableCol;
             console.log("查询开始");
             this.spinShow = true;
             axios
               .get(url)
               .then(data => {
-                debugger;
                 console.log("data: ", data);
                 this.spinShow = false;
-                if (data.status == 200 && data.data.length > 0) {
-                  this.totalnum = data.data.length;
-                  this.prePagetationtableData = data.data;
+                if (
+                  data.status == 200 &&
+                  data.data.data.list &&
+                  data.data.data.list.length > 0
+                ) {
+                  let list = data.data.data.list;
+                  this.totalnum = list.length;
+                  this.prePagetationtableData = list;
                   this.tableData = pagination(
                     1,
                     this.pagesize,
                     this.prePagetationtableData
                   );
                   console.log("this.tableData: ", this.tableData);
-                  let hdtm = _.map(data.data, v => {
+                  let hdtm = _.map(list, v => {
                     return v.tm;
                   });
-                  let hdz = _.map(data.data, v => {
-                    return v.z;
+                  let hdz = _.map(list, v => {
+                    return v.zz;
                   });
-                  let hdp = _.map(data.data, v => {
-                    return v.q;
+                  let hdp = _.map(list, v => {
+                    return v.qq;
                   });
                   // console.log("hdtm, hdz, hdp: ", hdtm, hdz, hdp);
                   this.createHdChart(hdtm, hdz, hdp);
@@ -396,18 +414,24 @@ export default {
               .finally(() => {});
             break;
           case "RR": //设计院-水库 水文站：基本信息及监测数据展示
-            let monitorUrl = `/cjwsjymonitor/Service1.svc/Public_get_rsvr_r?user=PUBLIC&stcd=${this.stcd}&st=${this.stt}&et=${this.ett}`;
+            // let monitorUrl = `/cjwsjymonitor/Service1.svc/Public_get_rsvr_r?user=PUBLIC&stcd=${this.stcd}&st=${this.stt}&et=${this.ett}`;
+            url = `/yfzxmonitor/cj-center-data/flood/queryFloodStation?startTime=${this.stt}&endTime=${this.ett}&stationId=${this.stcd}`;
             console.log("查询开始");
             this.spinShow = true;
             //监测数据请求
             axios
-              .get(monitorUrl)
+              .get(url)
               .then(monitorData => {
                 console.log("RRmonitorData: ", monitorData);
                 this.spinShow = false;
-                if (monitorData.status == 200 && monitorData.data.length > 0) {
+                if (
+                  monitorData.data.code == 200 &&
+                  monitorData.data &&
+                  monitorData.data.data &&
+                  monitorData.data.data.list.length > 0
+                ) {
                   this.tableCol = this.rrtableCol;
-                  this.renderChartAndTable(monitorData);
+                  this.renderChartAndTable(monitorData.data.data.list);
                 } else {
                   this.$Message.info("此时间段内无水库水文站监测数据");
                 }
@@ -420,21 +444,22 @@ export default {
             this.tableCol = this.hdtableCol;
             break;
           case "PP": //雨量站
-            url = `/api/cj-data/precipitation?stcd=${this.stcd}&from=${this.stt}&to=${this.ett}`;
+            // url = `/api/cj-data/precipitation?stcd=${this.stcd}&from=${this.stt}&to=${this.ett}`;
+            url = `/yfzxmonitor/cj-center-data/precipitation/queryRainCount?startTime=${this.stt}&endTime=${this.ett}&stationId=${this.stcd}`;
             this.spinShow = true;
             axios
               .get(url)
               .then(data => {
                 console.log("ppData: ", data);
                 this.spinShow = false;
-                let ppData = data.data;
                 if (
-                  data.status == 200 &&
-                  ppData.code == 200 &&
-                  ppData.data.length > 0
+                  data.data.code == 200 &&
+                  data.data &&
+                  data.data.data &&
+                  data.data.data.list.length > 0
                 ) {
                   this.tableCol = this.pptableCol;
-                  let rlt = this.prasePpData(ppData);
+                  let rlt = this.prasePpData(data.data.data.list);
                   this.createPpChart(rlt.tm, rlt.seriesArr);
                   console.log("tm, seriesArr: ", rlt);
                 } else {
@@ -463,32 +488,32 @@ export default {
       this.tableCol = [];
       this.totalnum = 0;
     },
-    renderChartAndTable(data) {
-      this.totalnum = data.data.length;
-      this.prePagetationtableData = data.data;
+    renderChartAndTable(listData) {
+      this.totalnum = listData.length;
+      this.prePagetationtableData = listData;
       this.tableData = pagination(
         1,
         this.pagesize,
         this.prePagetationtableData
       );
       console.log("this.tableData: ", this.tableData);
-      let hdtm = _.map(data.data, v => {
+      let hdtm = _.map(listData, v => {
         return v.tm;
       });
-      let hdrz = _.map(data.data, v => {
+      let hdrz = _.map(listData, v => {
         return v.rz;
       });
-      let hdinp = _.map(data.data, v => {
+      let hdinp = _.map(listData, v => {
         return v.inq;
       });
-      let hdotp = _.map(data.data, v => {
+      let hdotp = _.map(listData, v => {
         return v.otq;
       });
       // console.log("hdtm, hdz, hdp: ", hdtm, hdz, hdp);
       this.createRrChart(hdtm, hdrz, hdinp, hdotp);
     },
-    prasePpData(ppData) {
-      let len = ppData.data.length,
+    prasePpData(listData) {
+      let len = listData.length,
         tm = [],
         drp = [],
         dyp = [],
@@ -496,16 +521,16 @@ export default {
         intv = [];
       this.totalnum = len;
       for (let i = 0; i < len; i++) {
-        let v = ppData.data[i];
+        let v = listData[i];
         let prasetm = formatDate_YMDHMS(new Date(v.tm));
-        ppData.data[i].tm = prasetm;
+        listData[i].tm = prasetm;
         tm.push(prasetm);
         drp.push(v.drp);
         dyp.push(v.dyp);
         // pdr.push(v.pdr);
         // intv.push(v.intv);
       }
-      this.prePagetationtableData = ppData.data;
+      this.prePagetationtableData = listData;
       this.tableData = pagination(
         1,
         this.pagesize,
@@ -887,7 +912,7 @@ export default {
     width: 100%;
     margin: 2px 10px;
     .timeselect {
-      width: 107px;
+      width: 160px;
     }
     .label {
       font-size: 12px;
