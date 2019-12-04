@@ -34,10 +34,13 @@ export default {
 <style lang='scss' scoped>
 .map-tool-bar {
   position: absolute;
-  top: 40px;
+  top: 23px;
   right: 110px;
   background: #ffff;
-  padding: 8px;
+  padding: 5px;
   border-radius: 5px;
+  z-index: 10;
+  background: rgba(0, 0, 255, 0.1);
+  border: 1px solid #2d8cf0;
 }
 </style>

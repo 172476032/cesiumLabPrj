@@ -87,7 +87,7 @@ module.exports = {
       },
       //cesiumlab代理服务
       '/cesiumlab': {
-        target: 'http://106.14.203.229:8088/',
+        target: 'http://10.6.172.166:8080/',
         pathRewrite: {
           '^/cesiumlab': '/cesiumlab'
         },

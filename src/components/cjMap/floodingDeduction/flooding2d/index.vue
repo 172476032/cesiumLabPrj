@@ -17,14 +17,24 @@
     <div class="leftPanel">
       <div class="waterlevel">
         <div class="title"><span>最大水位与时间关系曲线</span></div>
+        <div class="chart">
+          <div id="waterLevelChart"
+               ref="waterLevelChart"></div>
+        </div>
       </div>
       <div class="floodflow">
         <div class="title"><span>最大流量与时间关系曲线</span></div>
-
+        <div class="chart">
+          <div id="floodflowChart"
+               ref="floodflowChart"></div>
+        </div>
       </div>
       <div class="area">
         <div class="title"><span>淹没面积与时间关系曲线</span></div>
-
+        <div class="chart">
+          <div id="areaChart"
+               ref="areaChart"></div>
+        </div>
       </div>
 
     </div>
@@ -33,32 +43,32 @@
         <div class="title"><span>居民房屋损失</span></div>
         <div class="build">
           <div class="name"><span>房屋损失</span></div>
-          <div class="content"><span class="num">6453</span><span class="unit">间</span></div>
+          <div class="content"><span class="num">{{buildingLoss}}</span><span class="unit">间</span></div>
         </div>
         <div class="money">
           <div class="name"><span>财产损失</span></div>
-          <div class="content"><span class="num">86542</span><span class="unit">K</span></div>
+          <div class="content"><span class="num">{{moneyLoss}}</span><span class="unit">K</span></div>
         </div>
       </div>
       <div class="agricultural">
         <div class="title"><span>农业损失</span></div>
         <div class="mian">
           <div class="name"><span>面积</span></div>
-          <div class="content"><span class="num">84353</span><span class="unit">km²</span></div>
+          <div class="content"><span class="num">{{agriculturalLoss}}</span><span class="unit">km²</span></div>
         </div>
       </div>
       <div class="industrial">
         <div class="title"><span>工业损失</span></div>
         <div class="mian">
           <div class="name"><span>厂房</span></div>
-          <div class="content"><span class="num">54686</span><span class="unit">间</span></div>
+          <div class="content"><span class="num">{{industrialLoss}}</span><span class="unit">间</span></div>
         </div>
       </div>
       <div class="business">
         <div class="title"><span>商业损失</span></div>
         <div class="mian">
           <div class="name"><span>经济</span></div>
-          <div class="content"><span class="num">9526</span><span class="unit">K</span></div>
+          <div class="content"><span class="num">{{businessLoss}}</span><span class="unit">K</span></div>
         </div>
       </div>
     </div>
@@ -66,14 +76,22 @@
 </template> 
 
 <script>
+import echarts from "echarts";
 import floodLegend from "./floodLegend";
+import draw2dEcharts from "./draw2dEcharts";
 
 export default {
   data() {
     return {
-      show: true
+      show: true,
+      buildingLoss: 0,
+      moneyLoss: 0,
+      agriculturalLoss: 0,
+      industrialLoss: 0,
+      businessLoss: 0
     };
   },
+  mixins: [draw2dEcharts],
   components: { floodLegend },
   mounted() {},
   computed: {
@@ -81,12 +99,12 @@ export default {
       console.log("arrivalIndex: ", this.$store.state.map.arrivalOlIndex);
       return this.$store.state.map.arrivalOlIndex;
     },
-    sortGroupGrids3857Length() {
-      return this.$store.state.map.sortGroupGrids3857Length;
+    sortGroupGrids2d() {
+      return this.$store.state.map.sortGroupGrids2d;
     },
     percent() {
       return Number(
-        ((100 / this.sortGroupGrids3857Length) * this.arrivalOlIndex).toFixed(0)
+        ((100 / this.sortGroupGrids2d.length) * this.arrivalOlIndex).toFixed(0)
       );
     }
   },
@@ -101,6 +119,39 @@ export default {
     pauseFlooding() {
       this.show = !this.show;
       this.$emit("pauseFlooding");
+    },
+    lossChange(newIndex) {
+      this.buildingLoss = newIndex * 401;
+      this.moneyLoss = newIndex * 923;
+      this.agriculturalLoss = newIndex * 324;
+      this.industrialLoss = newIndex * 112;
+      this.businessLoss = newIndex * 523;
+    },
+    reset() {
+      this.resetCharts();
+      this.buildingLoss = 0;
+      this.moneyLoss = 0;
+      this.agriculturalLoss = 0;
+      this.industrialLoss = 0;
+      this.businessLoss = 0;
+    }
+  },
+  watch: {
+    arrivalOlIndex(newIndex, oldIndex) {
+      console.log("newIndex，oldIndex: ", newIndex, oldIndex);
+      if (newIndex > oldIndex) {
+        let val1 = Math.ceil(Math.random() * 10),
+          val2 = Math.ceil(Math.random() * 10),
+          val3 = Math.ceil(Math.random() * 10);
+        this.dynamicEchart(
+          [newIndex, val1],
+          [newIndex, val2],
+          [newIndex, val3]
+        );
+        this.lossChange(newIndex);
+      } else if (newIndex < oldIndex) {
+        this.reset();
+      }
     }
   },
   destroyed() {}
@@ -140,12 +191,24 @@ export default {
       background-size: 100% 100%;
       margin-bottom: 6px;
       position: relative;
+      text-align: center;
       .title {
         position: absolute;
-        top: 2px;
-        left: 35px;
+        top: 2%;
+        left: 14%;
         color: #0cf1f3;
         font-weight: bold;
+      }
+      .chart {
+        width: 100%;
+        height: 100%;
+        #waterLevelChart,
+        #floodflowChart,
+        #areaChart {
+          width: 100%;
+          height: 100%;
+          display: inline-block;
+        }
       }
     }
   }
@@ -167,8 +230,8 @@ export default {
       padding: 20px;
       .title {
         position: absolute;
-        top: 2px;
-        left: 48px;
+        top: 2%;
+        left: 20%;
         color: #0cf1f3;
         font-weight: bold;
       }
@@ -218,8 +281,8 @@ export default {
       padding: 20px;
       .title {
         position: absolute;
-        top: 2px;
-        left: 48px;
+        top: 2%;
+        left: 20%;
         color: #0cf1f3;
         font-weight: bold;
       }

@@ -327,22 +327,22 @@ export default {
 }
 .cj-search-dropdown-item-list-wrapper {
   padding: 0 5px;
-  background-color: #fff;
+  background-color: rgba(0, 0, 255, 0.1);
 }
 .cj-search-dropdown-item-header-menu {
   padding: 5px 0 10px;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid rgba(0, 0, 255, 0.1);
 }
 .cj-search-dropdown-item-header-menu-btn-group {
   width: 100%;
 }
 .cj-search-dropdown-item-wrapper {
   padding: 5px;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid rgba(0, 0, 255, 0.1);
 }
 .cj-search-dropdown-item-small {
   font-size: 14px;
-  color: #666;
+  color: #ffff;
   line-height: 20px;
   max-height: 78px;
   text-overflow: ellipsis;
@@ -354,7 +354,7 @@ export default {
 .cj-search-dropdown-item-info-header {
   font-weight: 600;
   font-size: 12px;
-  color: #57a3f3;
+  color: #97ffff;
 }
 .cj-search-dropdown-empty-wrapper {
   padding: 10px;
@@ -380,7 +380,7 @@ export default {
   list-style: none;
 }
 .cj-search-dropdown-empty-tips-list li {
-  list-style: disc;
+  list-style: none;
   margin-left: 15px;
   line-height: 24px;
   font-family: Tahoma;
@@ -390,7 +390,6 @@ export default {
 .cj-search-dropdown {
   &-item-content {
     overflow: auto;
-    max-height: 500px;
   }
   &-item-child-content {
     &:hover {
@@ -409,7 +408,9 @@ export default {
   &-list-wrapper {
     margin-top: 5px;
     max-width: 413.297px;
-    width: 86% !important;
+    width: 80% !important;
+    max-height: 500px;
+    overflow: auto;
   }
   &-clear {
     background-color: white;

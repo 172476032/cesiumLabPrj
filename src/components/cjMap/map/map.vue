@@ -17,7 +17,8 @@
     <!-- 洪水推演 -->
     <Dropdown class="flood2d-dropdown"
               @on-click="toggle">
-      <Button type="primary">
+      <Button class="flood-btn"
+              type="primary">
         洪水推演
         <Icon type="ios-arrow-down"></Icon>
       </Button>
@@ -398,8 +399,12 @@ export default {
   }
   .flood2d-dropdown {
     position: absolute;
-    right: 18%;
-    top: 60px;
+    right: 27%;
+    top: 22px;
+    z-index: 10;
+    .flood-btn {
+      background: rgba(0, 0, 255, 0.1);
+    }
   }
 }
 </style>

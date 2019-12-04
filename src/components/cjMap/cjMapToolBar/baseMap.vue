@@ -2,6 +2,7 @@
 <template>
   <cj-collapse title="底图"
                icon="ios-map"
+               class="base-map"
                dropCardPosition="right">
     <div class="base-map-layers">
       <div class="basemap"
@@ -79,6 +80,9 @@ export default {
 };
 </script>
 <style lang='scss'  >
+.base-map {
+  color: #ffff;
+}
 .base-map-layers {
   width: 350px;
   padding: 5px 0px 5px 5px;

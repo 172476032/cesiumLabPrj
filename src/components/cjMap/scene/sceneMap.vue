@@ -4,7 +4,8 @@
     <!-- 洪水推演 -->
     <Dropdown class="flood-dropdown"
               @on-click="toggle">
-      <Button type="primary">
+      <Button class="flood-btn"
+              type="primary">
         洪水推演
         <Icon type="ios-arrow-down"></Icon>
       </Button>
@@ -97,7 +98,7 @@ export default {
             negativeZ: sky_mz
           }
         }),
-        // skyAtmosphere: new Cesium.SkyAtmosphere(),
+        skyAtmosphere: new Cesium.SkyAtmosphere(),
         imageryProvider: new Cesium.WebMapTileServiceImageryProvider({
           url:
             "http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=b97312f85a240009c717a8480b6d54d2",
@@ -168,7 +169,7 @@ export default {
       );
 
       let terrainLayer = new Cesium.CesiumTerrainProvider({
-        url: "/models/cesiumlab/terrain/sxjj/demmasioc"
+        url: "/cesiumlab/terrain/sxjj/demmasioc"
       });
       terrainLayer.readyPromise.then(v => {
         viewer.terrainProvider = terrainLayer;
@@ -569,8 +570,12 @@ export default {
   }
   .flood-dropdown {
     position: absolute;
-    right: 18%;
-    top: 40px;
+    right: 27%;
+    top: 22px;
+    z-index: 10;
+    .flood-btn {
+      background: rgba(0, 0, 255, 0.1);
+    }
   }
 }
 </style>

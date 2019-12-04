@@ -50,7 +50,7 @@ export default {
 </script>
 <style lang="scss">
 .maptool {
-  background: #ffff;
+  color: #ffff;
 }
 .cj-toolbar-measure-tip {
   background: #fff;

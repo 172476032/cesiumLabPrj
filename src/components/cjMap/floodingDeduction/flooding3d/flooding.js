@@ -5,7 +5,7 @@ export default {
     return {
       speed: 1500,
       timeInterval: null,
-      sortGroupGrids: null,
+      sortGroupGrids3d: null,
       waterEntities: null,
       // arrivalIndex: 0
     };
@@ -21,11 +21,11 @@ export default {
   methods: {
     replayFlooding() {
       this.reset();
-      this.intervalSetting(this.sortGroupGrids)
+      this.intervalSetting(this.sortGroupGrids3d)
     },
     beginFlooding() {
-      if (this.sortGroupGrids) {
-        this.intervalSetting(this.sortGroupGrids)
+      if (this.sortGroupGrids3d) {
+        this.intervalSetting(this.sortGroupGrids3d)
       }
     },
     pauseFlooding() {
@@ -36,12 +36,12 @@ export default {
       console.log('name: ', name);
       if (name == "openFloodPanel") {
         console.log("打开推演面板")
-        if (!this.sortGroupGrids) {
+        if (!this.sortGroupGrids3d) {
           //解析数据
           console.log('grids: ', grids);
-          this.sortGroupGrids = this.praseData(grids.features);
-          console.log('sortGroupGrids: ', this.sortGroupGrids);
-          this.$store.state.map.sortGroupGridsLength = this.sortGroupGrids.length
+          this.sortGroupGrids3d = this.praseData(grids.features);
+          console.log('sortGroupGrids3d: ', this.sortGroupGrids3d);
+          this.$store.state.map.sortGroupGrids3d = this.sortGroupGrids3d
         }
         //关闭蓄滞洪区、河段图层
         this.$store.commit("toggleAllLayers", {
@@ -56,13 +56,13 @@ export default {
       }
     },
 
-    intervalSetting(sortGroupGrids) {
+    intervalSetting(sortGroupGrids3d) {
       this.timeInterval = setInterval(() => {
-        if (this.arrivalIndex == sortGroupGrids.length) { //sortGroupGrids.length - 1
+        if (this.arrivalIndex == sortGroupGrids3d.length) { //sortGroupGrids3d.length - 1
           window.clearInterval(this.timeInterval)
         } else {
-          this.drawPrimitives(sortGroupGrids[this.arrivalIndex])
-          console.log('sortGroupGrids[arrivalIndex]: ', sortGroupGrids[this.arrivalIndex]);
+          this.drawPrimitives(sortGroupGrids3d[this.arrivalIndex])
+          console.log('sortGroupGrids3d[arrivalIndex]: ', sortGroupGrids3d[this.arrivalIndex]);
           this.$store.state.map.arrivalIndex++;
         }
         console.log("正在播放哦哦哦")
@@ -82,14 +82,14 @@ export default {
         }), (a) => {
           return a.properties.Value_1
         }),
-        sortGroupGrids = [];
+        sortGroupGrids3d = [];
       if (sort) {
         for (const key in sort) {
           if (sort.hasOwnProperty(key)) {
-            sortGroupGrids.push(sort[key]);
+            sortGroupGrids3d.push(sort[key]);
           }
         }
-        return sortGroupGrids
+        return sortGroupGrids3d
       }
     },
     drawPrimitives(features) {

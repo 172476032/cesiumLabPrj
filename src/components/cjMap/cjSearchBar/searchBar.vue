@@ -127,10 +127,15 @@ export default {
 
 <style lang="scss" scope>
 .cj-search-box-new-wrap {
-  width: 360px;
+  width: 250px;
   position: absolute;
-  top: 30px;
-  left: 30px;
+  top: 22px;
+  left: 275px;
+  .ivu-input-group .ivu-input {
+    background: rgba(0, 0, 255, 0.1);
+    color: #ffff;
+    border: 1px solid #2d8cf0;
+  }
   .close {
     position: absolute;
     right: 60px;
@@ -166,8 +171,8 @@ export default {
     top: 6px;
     height: 20px;
     width: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    left: 280px;
+    background-color: rgba(0, 0, 255, 0.1);
+    left: 170px;
     z-index: 10;
   }
   .demo-spin-icon-load {

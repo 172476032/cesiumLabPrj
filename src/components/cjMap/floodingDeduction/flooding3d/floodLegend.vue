@@ -50,7 +50,7 @@ export default {
   width: 180px;
   background: #ffffff;
   position: absolute;
-  left: 1%;
+  left: 18%;
   bottom: 50px;
   border-radius: 5px;
   .header {

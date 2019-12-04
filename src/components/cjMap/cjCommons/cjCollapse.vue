@@ -98,17 +98,17 @@ export default {
   .dropCard {
     overflow: hidden;
     padding: 0 0 2px;
-    margin-top: 10px;
+    margin-top: 13px;
     display: inline;
     position: absolute;
   }
   .baseMapStyle {
     transform: scale(0.8);
-    margin-top: -37px;
+    margin-top: -33px;
     margin-right: -35px;
   }
   .content {
-    background: #ffff;
+    background: rgba(0, 0, 255, 0.2);
   }
 }
 .cj-collapse:hover {

@@ -25,6 +25,10 @@ export default {
 </script>
 
 <style lang="scss">
+#cjmapLayerControls {
+  right: 65px;
+  top: 53px;
+}
 .cj-layer-side-bar {
   right: 40px;
   top: 73px;
@@ -34,7 +38,9 @@ export default {
   }
   .cj-collapse-header {
     padding: 0;
-    background: #39f;
+    background: rgba(0, 0, 255, 0.1);
+    border: 1px solid #2d8cf0;
+
     color: #fff;
     text-align: center;
     width: 35px;

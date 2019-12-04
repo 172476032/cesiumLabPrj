@@ -98,7 +98,7 @@ export default {
   .dropCard {
     overflow: hidden;
     padding: 0 0 2px;
-    margin-top: 10px;
+    margin-top: 13px;
     display: inline;
     position: absolute;
   }
@@ -108,7 +108,7 @@ export default {
     margin-right: -35px;
   }
   .content {
-    background: #ffff;
+    background: rgba(0, 0, 255, 0.2);
   }
 }
 .cj-collapse:hover {

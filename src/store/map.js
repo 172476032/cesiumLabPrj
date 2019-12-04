@@ -138,8 +138,8 @@ export default {
     map: init2Map(),
     arrivalIndex: 0,
     arrivalOlIndex: 0,
-    sortGroupGridsLength: 0,
-    sortGroupGrids3857Length: 0,
+    sortGroupGrids3d: [],
+    sortGroupGrids2d: [],
     floodingColorsHtml: {
       1: "#CDFF00",
       2: "#99FE00",
@@ -408,9 +408,9 @@ export default {
       name: '水闸', //蔡家湖闸
       url: `/map178/rest/services/cjcenter/水闸/MapServer/find?layers=1&f=pjson&searchFields=MC&searchText=`
     }, {
-        name: '水文站', //向家坝   
-        url: `/map178/rest/services/cjcenter/长江流域水文站3857new/MapServer/find?layers=1&f=pjson&searchFields=测站名称&searchText=`
-      }, {
+      name: '水文站', //向家坝   
+      url: `/map178/rest/services/cjcenter/长江流域水文站3857new/MapServer/find?layers=1&f=pjson&searchFields=测站名称&searchText=`
+    }, {
       name: '泵站', //杨河泵站
       url: `/map178/rest/services/cjcenter/泵站/MapServer/find?layers=1&f=pjson&searchFields=MC&searchText=`
     }, {

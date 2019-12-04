@@ -12,7 +12,7 @@ import grids3857 from '../../../../../static/jsons/floodall3857';
 export default {
   data() {
     return {
-      sortGroupGrids3857: null,
+      sortGroupGrids2d: null,
       floodingLayer: null,
       timeOlInterval: null,
       speed: 1500
@@ -32,11 +32,11 @@ export default {
   methods: {
     replayFlooding() {
       this.reset();
-      this.intervalOlSetting(this.sortGroupGrids3857)
+      this.intervalOlSetting(this.sortGroupGrids2d)
     },
     beginFlooding() {
-      if (this.sortGroupGrids3857) {
-        this.intervalOlSetting(this.sortGroupGrids3857)
+      if (this.sortGroupGrids2d) {
+        this.intervalOlSetting(this.sortGroupGrids2d)
       }
     },
     pauseFlooding() {
@@ -47,12 +47,12 @@ export default {
       console.log('name: ', name);
       if (name == "openFloodPanel") {
         console.log("打开推演面板")
-        if (!this.sortGroupGrids3857) {
+        if (!this.sortGroupGrids2d) {
           //解析数据
           console.log('grids3857: ', grids3857);
-          this.sortGroupGrids3857 = this.praseData(grids3857.features);
-          console.log('sortGroupGrids3857: ', this.sortGroupGrids3857);
-          this.$store.state.map.sortGroupGrids3857Length = this.sortGroupGrids3857.length
+          this.sortGroupGrids2d = this.praseData(grids3857.features);
+          console.log('sortGroupGrids2d: ', this.sortGroupGrids2d);
+          this.$store.state.map.sortGroupGrids2d = this.sortGroupGrids2d
           this.createLayer()
         }
         //关闭所有图层
